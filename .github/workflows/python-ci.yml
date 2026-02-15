@@ -27,10 +27,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install -e .
 
-    - name: Run conversion on hello_world example
+    - name: Run conversion on reference example
       run: |
         pipeview-perfetto --input-file examples/reference/reference.out \
-                          --output-file reference_output.json
+                          --output-file reference.json
 
 
     - name: Compare output with reference
