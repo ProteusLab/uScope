@@ -7,7 +7,7 @@ name = "pipeview-perfetto"
 version = "0.1.0"
 description = "Convert gem5 O3PipeView traces to Perfetto JSON"
 readme = "README.md"
-authors = [{name = "ProteusLab", email = ""}]
+authors = [{name = "ProteusLab", email = "shurygin.aa@frtk.ru"}]
 license = {text = "Apache 2.0"}
 classifiers = [
     "Programming Language :: Python :: 3",
