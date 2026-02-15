@@ -1,0 +1,1337 @@
+O3PipeView:fetch:78500:0x00010144:0:1:auipc a0, 1:IntAlu
+O3PipeView:decode:79000
+O3PipeView:rename:79500
+O3PipeView:dispatch:80500
+O3PipeView:issue:80500
+O3PipeView:complete:81000
+O3PipeView:retire:82000:store:0
+O3PipeView:fetch:78500:0x0001014c:0:3:auipc a1, 1:IntAlu
+O3PipeView:decode:79000
+O3PipeView:rename:79500
+O3PipeView:dispatch:80500
+O3PipeView:issue:80500
+O3PipeView:complete:81000
+O3PipeView:retire:137000:store:0
+O3PipeView:fetch:78500:0x00010148:0:2:ld a0, 548(a0):MemRead
+O3PipeView:decode:79000
+O3PipeView:rename:79500
+O3PipeView:dispatch:80500
+O3PipeView:issue:81000
+O3PipeView:complete:81500
+O3PipeView:retire:137000:store:0
+O3PipeView:fetch:78500:0x00010154:0:5:auipc a2, 1:IntAlu
+O3PipeView:decode:79000
+O3PipeView:rename:79500
+O3PipeView:dispatch:80500
+O3PipeView:issue:80500
+O3PipeView:complete:81000
+O3PipeView:retire:141000:store:0
+O3PipeView:fetch:78500:0x0001015c:0:7:addi a3, zero, 2:IntAlu
+O3PipeView:decode:79000
+O3PipeView:rename:79500
+O3PipeView:dispatch:80500
+O3PipeView:issue:80500
+O3PipeView:complete:81000
+O3PipeView:retire:141500:store:0
+O3PipeView:fetch:78500:0x00010150:0:4:ld a1, 548(a1):MemRead
+O3PipeView:decode:79000
+O3PipeView:rename:79500
+O3PipeView:dispatch:80500
+O3PipeView:issue:81000
+O3PipeView:complete:81500
+O3PipeView:retire:141000:store:0
+O3PipeView:fetch:78500:0x00010158:0:6:ld a2, 548(a2):MemRead
+O3PipeView:decode:79000
+O3PipeView:rename:79500
+O3PipeView:dispatch:80500
+O3PipeView:issue:81000
+O3PipeView:complete:81500
+O3PipeView:retire:141500:store:0
+O3PipeView:fetch:78500:0x00010160:0:8:lw a4, 0(a0):MemRead
+O3PipeView:decode:79000
+O3PipeView:rename:79500
+O3PipeView:dispatch:80500
+O3PipeView:issue:136000
+O3PipeView:complete:136500
+O3PipeView:retire:189000:store:0
+O3PipeView:fetch:79000:0x00010164:0:9:lw a5, 0(a1):MemRead
+O3PipeView:decode:79500
+O3PipeView:rename:80000
+O3PipeView:dispatch:81000
+O3PipeView:issue:140000
+O3PipeView:complete:140500
+O3PipeView:retire:193500:store:0
+O3PipeView:fetch:130000:0x00010194:0:21:auipc a0, 1:IntAlu
+O3PipeView:decode:130500
+O3PipeView:rename:131000
+O3PipeView:dispatch:132000
+O3PipeView:issue:132000
+O3PipeView:complete:132500
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:130000:0x00010198:0:22:ld a0, 468(a0):MemRead
+O3PipeView:decode:130500
+O3PipeView:rename:131000
+O3PipeView:dispatch:132000
+O3PipeView:issue:132500
+O3PipeView:complete:133000
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:130000:0x0001019c:0:23:auipc a1, 1:IntAlu
+O3PipeView:decode:130500
+O3PipeView:rename:131000
+O3PipeView:dispatch:132000
+O3PipeView:issue:132000
+O3PipeView:complete:132500
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:130500:0x000101a0:0:24:ld a1, 468(a1):MemRead
+O3PipeView:decode:131000
+O3PipeView:rename:131500
+O3PipeView:dispatch:132500
+O3PipeView:issue:132500
+O3PipeView:complete:133000
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:130500:0x000101a4:0:25:addi a3, zero, 2:IntAlu
+O3PipeView:decode:131000
+O3PipeView:rename:131500
+O3PipeView:dispatch:132500
+O3PipeView:issue:132500
+O3PipeView:complete:133000
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:130500:0x000101a8:0:26:lw a4, 0(a0):MemRead
+O3PipeView:decode:131000
+O3PipeView:rename:131500
+O3PipeView:dispatch:132500
+O3PipeView:issue:0
+O3PipeView:complete:0
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:130500:0x000101ac:0:27:lw a5, 0(a1):MemRead
+O3PipeView:decode:131000
+O3PipeView:rename:131500
+O3PipeView:dispatch:132500
+O3PipeView:issue:0
+O3PipeView:complete:0
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:130500:0x000101b0:0:28:mul a6, a4, a5:IntMult
+O3PipeView:decode:131000
+O3PipeView:rename:131500
+O3PipeView:dispatch:132500
+O3PipeView:issue:0
+O3PipeView:complete:0
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:130500:0x000101b4:0:29:div a7, a4, a5:IntDiv
+O3PipeView:decode:131000
+O3PipeView:rename:131500
+O3PipeView:dispatch:132500
+O3PipeView:issue:0
+O3PipeView:complete:0
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:130500:0x000101b8:0:30:add s2, a6, a7:IntAlu
+O3PipeView:decode:131000
+O3PipeView:rename:131500
+O3PipeView:dispatch:132500
+O3PipeView:issue:0
+O3PipeView:complete:0
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:130500:0x000101bc:0:31:sw s2, 0(a2):MemWrite
+O3PipeView:decode:131000
+O3PipeView:rename:131500
+O3PipeView:dispatch:132500
+O3PipeView:issue:0
+O3PipeView:complete:0
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:130000:0x00010180:0:16:addi a0, a0, 4:IntAlu
+O3PipeView:decode:130500
+O3PipeView:rename:131000
+O3PipeView:dispatch:132000
+O3PipeView:issue:136000
+O3PipeView:complete:136500
+O3PipeView:retire:195000:store:0
+O3PipeView:fetch:130000:0x00010184:0:17:addi a1, a1, 4:IntAlu
+O3PipeView:decode:130500
+O3PipeView:rename:131000
+O3PipeView:dispatch:132000
+O3PipeView:issue:140000
+O3PipeView:complete:140500
+O3PipeView:retire:195000:store:0
+O3PipeView:fetch:130000:0x00010188:0:18:addi a2, a2, 4:IntAlu
+O3PipeView:decode:130500
+O3PipeView:rename:131000
+O3PipeView:dispatch:132000
+O3PipeView:issue:140500
+O3PipeView:complete:141000
+O3PipeView:retire:195000:store:0
+O3PipeView:fetch:130000:0x0001018c:0:19:addi a3, a3, -1:IntAlu
+O3PipeView:decode:130500
+O3PipeView:rename:131000
+O3PipeView:dispatch:132000
+O3PipeView:issue:132000
+O3PipeView:complete:132500
+O3PipeView:retire:195000:store:0
+O3PipeView:fetch:130000:0x00010190:0:20:bne a3, zero, -48:IntAlu
+O3PipeView:decode:130500
+O3PipeView:rename:131000
+O3PipeView:dispatch:132000
+O3PipeView:issue:132500
+O3PipeView:complete:133000
+O3PipeView:retire:195000:store:0
+O3PipeView:fetch:135500:0x00010160:0:32:lw a4, 0(a0):MemRead
+O3PipeView:decode:136000
+O3PipeView:rename:136500
+O3PipeView:dispatch:137500
+O3PipeView:issue:137500
+O3PipeView:complete:138000
+O3PipeView:retire:195000:store:0
+O3PipeView:fetch:135500:0x00010164:0:33:lw a5, 0(a1):MemRead
+O3PipeView:decode:136000
+O3PipeView:rename:136500
+O3PipeView:dispatch:137500
+O3PipeView:issue:140500
+O3PipeView:complete:141000
+O3PipeView:retire:195000:store:0
+O3PipeView:fetch:79000:0x00010174:0:13:or s3, a4, a5:IntAlu
+O3PipeView:decode:79500
+O3PipeView:rename:80000
+O3PipeView:dispatch:81000
+O3PipeView:issue:192500
+O3PipeView:complete:193000
+O3PipeView:retire:194000:store:0
+O3PipeView:fetch:79000:0x00010170:0:12:and s2, a4, a5:IntAlu
+O3PipeView:decode:79500
+O3PipeView:rename:80000
+O3PipeView:dispatch:81000
+O3PipeView:issue:192500
+O3PipeView:complete:193000
+O3PipeView:retire:194000:store:0
+O3PipeView:fetch:79000:0x0001016c:0:11:sub a7, a4, a5:IntAlu
+O3PipeView:decode:79500
+O3PipeView:rename:80000
+O3PipeView:dispatch:81000
+O3PipeView:issue:192500
+O3PipeView:complete:193000
+O3PipeView:retire:194000:store:0
+O3PipeView:fetch:79000:0x00010168:0:10:add a6, a4, a5:IntAlu
+O3PipeView:decode:79500
+O3PipeView:rename:80000
+O3PipeView:dispatch:81000
+O3PipeView:issue:192500
+O3PipeView:complete:193000
+O3PipeView:retire:194000:store:0
+O3PipeView:fetch:135500:0x00010168:0:34:add a6, a4, a5:IntAlu
+O3PipeView:decode:136000
+O3PipeView:rename:136500
+O3PipeView:dispatch:137500
+O3PipeView:issue:192500
+O3PipeView:complete:193000
+O3PipeView:retire:195500:store:0
+O3PipeView:fetch:135500:0x0001016c:0:35:sub a7, a4, a5:IntAlu
+O3PipeView:decode:136000
+O3PipeView:rename:136500
+O3PipeView:dispatch:137500
+O3PipeView:issue:192500
+O3PipeView:complete:193000
+O3PipeView:retire:195500:store:0
+O3PipeView:fetch:136500:0x00010180:0:40:addi a0, a0, 4:IntAlu
+O3PipeView:decode:137000
+O3PipeView:rename:137500
+O3PipeView:dispatch:138500
+O3PipeView:issue:138500
+O3PipeView:complete:139000
+O3PipeView:retire:195500:store:0
+O3PipeView:fetch:136500:0x00010184:0:41:addi a1, a1, 4:IntAlu
+O3PipeView:decode:137000
+O3PipeView:rename:137500
+O3PipeView:dispatch:138500
+O3PipeView:issue:140500
+O3PipeView:complete:141000
+O3PipeView:retire:195500:store:0
+O3PipeView:fetch:135500:0x00010178:0:38:add s4, a6, a7:IntAlu
+O3PipeView:decode:136000
+O3PipeView:rename:136500
+O3PipeView:dispatch:137500
+O3PipeView:issue:193000
+O3PipeView:complete:193500
+O3PipeView:retire:195500:store:0
+O3PipeView:fetch:135500:0x00010174:0:37:or s3, a4, a5:IntAlu
+O3PipeView:decode:136000
+O3PipeView:rename:136500
+O3PipeView:dispatch:137500
+O3PipeView:issue:193000
+O3PipeView:complete:193500
+O3PipeView:retire:195500:store:0
+O3PipeView:fetch:135500:0x00010170:0:36:and s2, a4, a5:IntAlu
+O3PipeView:decode:136000
+O3PipeView:rename:136500
+O3PipeView:dispatch:137500
+O3PipeView:issue:193000
+O3PipeView:complete:193500
+O3PipeView:retire:195500:store:0
+O3PipeView:fetch:79000:0x00010178:0:14:add s4, a6, a7:IntAlu
+O3PipeView:decode:79500
+O3PipeView:rename:80000
+O3PipeView:dispatch:81000
+O3PipeView:issue:193000
+O3PipeView:complete:193500
+O3PipeView:retire:194500:store:0
+O3PipeView:fetch:136500:0x00010188:0:42:addi a2, a2, 4:IntAlu
+O3PipeView:decode:137000
+O3PipeView:rename:137500
+O3PipeView:dispatch:138500
+O3PipeView:issue:141000
+O3PipeView:complete:141500
+O3PipeView:retire:196000:store:0
+O3PipeView:fetch:136500:0x0001018c:0:43:addi a3, a3, -1:IntAlu
+O3PipeView:decode:137000
+O3PipeView:rename:137500
+O3PipeView:dispatch:138500
+O3PipeView:issue:138500
+O3PipeView:complete:139000
+O3PipeView:retire:196000:store:0
+O3PipeView:fetch:136500:0x00010190:0:44:bne a3, zero, -48:IntAlu
+O3PipeView:decode:137000
+O3PipeView:rename:137500
+O3PipeView:dispatch:138500
+O3PipeView:issue:139000
+O3PipeView:complete:139500
+O3PipeView:retire:196000:store:0
+O3PipeView:fetch:136500:0x00010194:0:45:auipc a0, 1:IntAlu
+O3PipeView:decode:137000
+O3PipeView:rename:137500
+O3PipeView:dispatch:138500
+O3PipeView:issue:138500
+O3PipeView:complete:139000
+O3PipeView:retire:196000:store:0
+O3PipeView:fetch:136500:0x00010198:0:46:ld a0, 468(a0):MemRead
+O3PipeView:decode:137000
+O3PipeView:rename:137500
+O3PipeView:dispatch:138500
+O3PipeView:issue:139000
+O3PipeView:complete:139500
+O3PipeView:retire:196000:store:0
+O3PipeView:fetch:136500:0x0001019c:0:47:auipc a1, 1:IntAlu
+O3PipeView:decode:137000
+O3PipeView:rename:137500
+O3PipeView:dispatch:138500
+O3PipeView:issue:138500
+O3PipeView:complete:139000
+O3PipeView:retire:196000:store:0
+O3PipeView:fetch:137000:0x000101a0:0:48:ld a1, 468(a1):MemRead
+O3PipeView:decode:137500
+O3PipeView:rename:138000
+O3PipeView:dispatch:139000
+O3PipeView:issue:139000
+O3PipeView:complete:139500
+O3PipeView:retire:196000:store:0
+O3PipeView:fetch:137000:0x000101a4:0:49:addi a3, zero, 2:IntAlu
+O3PipeView:decode:137500
+O3PipeView:rename:138000
+O3PipeView:dispatch:139000
+O3PipeView:issue:139000
+O3PipeView:complete:139500
+O3PipeView:retire:196000:store:0
+O3PipeView:fetch:79000:0x0001017c:0:15:sw s4, 0(a2):MemWrite
+O3PipeView:decode:79500
+O3PipeView:rename:80000
+O3PipeView:dispatch:81000
+O3PipeView:issue:193500
+O3PipeView:complete:194000
+O3PipeView:retire:195000:store:197000
+O3PipeView:fetch:137000:0x000101a8:0:50:lw a4, 0(a0):MemRead
+O3PipeView:decode:137500
+O3PipeView:rename:138000
+O3PipeView:dispatch:139000
+O3PipeView:issue:140500
+O3PipeView:complete:141000
+O3PipeView:retire:196500:store:0
+O3PipeView:fetch:137000:0x000101ac:0:51:lw a5, 0(a1):MemRead
+O3PipeView:decode:137500
+O3PipeView:rename:138000
+O3PipeView:dispatch:139000
+O3PipeView:issue:141000
+O3PipeView:complete:141500
+O3PipeView:retire:196500:store:0
+O3PipeView:fetch:137000:0x000101b0:0:52:mul a6, a4, a5:IntMult
+O3PipeView:decode:137500
+O3PipeView:rename:138000
+O3PipeView:dispatch:139000
+O3PipeView:issue:192500
+O3PipeView:complete:194000
+O3PipeView:retire:196500:store:0
+O3PipeView:fetch:135500:0x0001017c:0:39:sw s4, 0(a2):MemWrite
+O3PipeView:decode:136000
+O3PipeView:rename:136500
+O3PipeView:dispatch:137500
+O3PipeView:issue:193500
+O3PipeView:complete:194000
+O3PipeView:retire:195500:store:197500
+O3PipeView:fetch:182500:0x000101d0:0:60:auipc a0, 1:IntAlu
+O3PipeView:decode:183000
+O3PipeView:rename:183500
+O3PipeView:dispatch:184500
+O3PipeView:issue:184500
+O3PipeView:complete:185000
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:182500:0x000101d8:0:62:auipc a1, 1:IntAlu
+O3PipeView:decode:183000
+O3PipeView:rename:183500
+O3PipeView:dispatch:184500
+O3PipeView:issue:184500
+O3PipeView:complete:185000
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:183000:0x000101e0:0:64:auipc a2, 1:IntAlu
+O3PipeView:decode:183500
+O3PipeView:rename:184000
+O3PipeView:dispatch:185000
+O3PipeView:issue:185000
+O3PipeView:complete:185500
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:183000:0x000101e8:0:66:addi a3, zero, 2:IntAlu
+O3PipeView:decode:183500
+O3PipeView:rename:184000
+O3PipeView:dispatch:185000
+O3PipeView:issue:185000
+O3PipeView:complete:185500
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:183000:0x000101ec:0:67:flw ft0, 0(a0):FloatMemRead
+O3PipeView:decode:183500
+O3PipeView:rename:184000
+O3PipeView:dispatch:185000
+O3PipeView:issue:0
+O3PipeView:complete:0
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:183000:0x000101f0:0:68:flw ft1, 0(a1):FloatMemRead
+O3PipeView:decode:183500
+O3PipeView:rename:184000
+O3PipeView:dispatch:185000
+O3PipeView:issue:0
+O3PipeView:complete:0
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:183000:0x000101f4:0:69:fadd_s ft2, ft0, ft1:FloatAdd
+O3PipeView:decode:183500
+O3PipeView:rename:184000
+O3PipeView:dispatch:185000
+O3PipeView:issue:0
+O3PipeView:complete:0
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:183000:0x000101f8:0:70:fsub_s ft3, ft0, ft1:FloatAdd
+O3PipeView:decode:183500
+O3PipeView:rename:184000
+O3PipeView:dispatch:185000
+O3PipeView:issue:0
+O3PipeView:complete:0
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:183000:0x000101fc:0:71:feq_s a4, ft0, ft1:FloatCmp
+O3PipeView:decode:183500
+O3PipeView:rename:184000
+O3PipeView:dispatch:185000
+O3PipeView:issue:0
+O3PipeView:complete:0
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:182500:0x000101c0:0:56:addi a0, a0, 4:IntAlu
+O3PipeView:decode:183000
+O3PipeView:rename:183500
+O3PipeView:dispatch:184500
+O3PipeView:issue:184500
+O3PipeView:complete:185000
+O3PipeView:retire:204500:store:0
+O3PipeView:fetch:182500:0x000101c4:0:57:addi a1, a1, 4:IntAlu
+O3PipeView:decode:183000
+O3PipeView:rename:183500
+O3PipeView:dispatch:184500
+O3PipeView:issue:184500
+O3PipeView:complete:185000
+O3PipeView:retire:204500:store:0
+O3PipeView:fetch:182500:0x000101c8:0:58:addi a3, a3, -1:IntAlu
+O3PipeView:decode:183000
+O3PipeView:rename:183500
+O3PipeView:dispatch:184500
+O3PipeView:issue:184500
+O3PipeView:complete:185000
+O3PipeView:retire:204500:store:0
+O3PipeView:fetch:182500:0x000101cc:0:59:bne a3, zero, -36:IntAlu
+O3PipeView:decode:183000
+O3PipeView:rename:183500
+O3PipeView:dispatch:184500
+O3PipeView:issue:185000
+O3PipeView:complete:185500
+O3PipeView:retire:204500:store:0
+O3PipeView:fetch:188000:0x000101a8:0:72:lw a4, 0(a0):MemRead
+O3PipeView:decode:188500
+O3PipeView:rename:189000
+O3PipeView:dispatch:190000
+O3PipeView:issue:190000
+O3PipeView:complete:190500
+O3PipeView:retire:204500:store:0
+O3PipeView:fetch:188000:0x000101ac:0:73:lw a5, 0(a1):MemRead
+O3PipeView:decode:188500
+O3PipeView:rename:189000
+O3PipeView:dispatch:190000
+O3PipeView:issue:190000
+O3PipeView:complete:190500
+O3PipeView:retire:204500:store:0
+O3PipeView:fetch:188000:0x000101b0:0:74:mul a6, a4, a5:IntMult
+O3PipeView:decode:188500
+O3PipeView:rename:189000
+O3PipeView:dispatch:190000
+O3PipeView:issue:193500
+O3PipeView:complete:195000
+O3PipeView:retire:204500:store:0
+O3PipeView:fetch:137000:0x000101b4:0:53:div a7, a4, a5:IntDiv
+O3PipeView:decode:137500
+O3PipeView:rename:138000
+O3PipeView:dispatch:139000
+O3PipeView:issue:192500
+O3PipeView:complete:202500
+O3PipeView:retire:203500:store:0
+O3PipeView:fetch:137000:0x000101b8:0:54:add s2, a6, a7:IntAlu
+O3PipeView:decode:137500
+O3PipeView:rename:138000
+O3PipeView:dispatch:139000
+O3PipeView:issue:202500
+O3PipeView:complete:203000
+O3PipeView:retire:204000:store:0
+O3PipeView:fetch:137000:0x000101bc:0:55:sw s2, 0(a2):MemWrite
+O3PipeView:decode:137500
+O3PipeView:rename:138000
+O3PipeView:dispatch:139000
+O3PipeView:issue:203000
+O3PipeView:complete:203500
+O3PipeView:retire:204500:store:206500
+O3PipeView:fetch:189000:0x000101c0:0:78:addi a0, a0, 4:IntAlu
+O3PipeView:decode:189500
+O3PipeView:rename:190000
+O3PipeView:dispatch:191000
+O3PipeView:issue:191000
+O3PipeView:complete:191500
+O3PipeView:retire:206000:store:0
+O3PipeView:fetch:189000:0x000101c4:0:79:addi a1, a1, 4:IntAlu
+O3PipeView:decode:189500
+O3PipeView:rename:190000
+O3PipeView:dispatch:191000
+O3PipeView:issue:191000
+O3PipeView:complete:191500
+O3PipeView:retire:206000:store:0
+O3PipeView:fetch:189000:0x000101c8:0:80:addi a3, a3, -1:IntAlu
+O3PipeView:decode:189500
+O3PipeView:rename:190000
+O3PipeView:dispatch:191000
+O3PipeView:issue:191000
+O3PipeView:complete:191500
+O3PipeView:retire:206000:store:0
+O3PipeView:fetch:189000:0x000101cc:0:81:bne a3, zero, -36:IntAlu
+O3PipeView:decode:189500
+O3PipeView:rename:190000
+O3PipeView:dispatch:191000
+O3PipeView:issue:191500
+O3PipeView:complete:192000
+O3PipeView:retire:206000:store:0
+O3PipeView:fetch:189000:0x000101d0:0:82:auipc a0, 1:IntAlu
+O3PipeView:decode:189500
+O3PipeView:rename:190000
+O3PipeView:dispatch:191000
+O3PipeView:issue:191000
+O3PipeView:complete:191500
+O3PipeView:retire:206000:store:0
+O3PipeView:fetch:188000:0x000101b4:0:75:div a7, a4, a5:IntDiv
+O3PipeView:decode:188500
+O3PipeView:rename:189000
+O3PipeView:dispatch:190000
+O3PipeView:issue:194000
+O3PipeView:complete:204000
+O3PipeView:retire:205000:store:0
+O3PipeView:fetch:188000:0x000101b8:0:76:add s2, a6, a7:IntAlu
+O3PipeView:decode:188500
+O3PipeView:rename:189000
+O3PipeView:dispatch:190000
+O3PipeView:issue:204000
+O3PipeView:complete:204500
+O3PipeView:retire:205500:store:0
+O3PipeView:fetch:188000:0x000101bc:0:77:sw s2, 0(a2):MemWrite
+O3PipeView:decode:188500
+O3PipeView:rename:189000
+O3PipeView:dispatch:190000
+O3PipeView:issue:204500
+O3PipeView:complete:205000
+O3PipeView:retire:206000:store:208000
+O3PipeView:fetch:182500:0x000101d4:0:61:ld a0, 432(a0):MemRead
+O3PipeView:decode:183000
+O3PipeView:rename:183500
+O3PipeView:dispatch:184500
+O3PipeView:issue:185000
+O3PipeView:complete:185500
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:189000:0x000101d8:0:84:auipc a1, 1:IntAlu
+O3PipeView:decode:189500
+O3PipeView:rename:190000
+O3PipeView:dispatch:191000
+O3PipeView:issue:191000
+O3PipeView:complete:191500
+O3PipeView:retire:241500:store:0
+O3PipeView:fetch:189000:0x000101d4:0:83:ld a0, 432(a0):MemRead
+O3PipeView:decode:189500
+O3PipeView:rename:190000
+O3PipeView:dispatch:191000
+O3PipeView:issue:191500
+O3PipeView:complete:192000
+O3PipeView:retire:241500:store:0
+O3PipeView:fetch:182500:0x000101dc:0:63:ld a1, 432(a1):MemRead
+O3PipeView:decode:183000
+O3PipeView:rename:183500
+O3PipeView:dispatch:184500
+O3PipeView:issue:185000
+O3PipeView:complete:185500
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:183000:0x000101e4:0:65:ld a2, 432(a2):MemRead
+O3PipeView:decode:183500
+O3PipeView:rename:184000
+O3PipeView:dispatch:185000
+O3PipeView:issue:185500
+O3PipeView:complete:186000
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:189500:0x000101e0:0:86:auipc a2, 1:IntAlu
+O3PipeView:decode:190000
+O3PipeView:rename:190500
+O3PipeView:dispatch:191500
+O3PipeView:issue:191500
+O3PipeView:complete:192000
+O3PipeView:retire:245500:store:0
+O3PipeView:fetch:189500:0x000101e8:0:88:addi a3, zero, 2:IntAlu
+O3PipeView:decode:190000
+O3PipeView:rename:190500
+O3PipeView:dispatch:191500
+O3PipeView:issue:191500
+O3PipeView:complete:192000
+O3PipeView:retire:245500:store:0
+O3PipeView:fetch:189500:0x000101ec:0:89:flw ft0, 0(a0):FloatMemRead
+O3PipeView:decode:190000
+O3PipeView:rename:190500
+O3PipeView:dispatch:191500
+O3PipeView:issue:240500
+O3PipeView:complete:241000
+O3PipeView:retire:245500:store:0
+O3PipeView:fetch:189500:0x000101e4:0:87:ld a2, 432(a2):MemRead
+O3PipeView:decode:190000
+O3PipeView:rename:190500
+O3PipeView:dispatch:191500
+O3PipeView:issue:192000
+O3PipeView:complete:192500
+O3PipeView:retire:245500:store:0
+O3PipeView:fetch:189000:0x000101dc:0:85:ld a1, 432(a1):MemRead
+O3PipeView:decode:189500
+O3PipeView:rename:190000
+O3PipeView:dispatch:191000
+O3PipeView:issue:191500
+O3PipeView:complete:192000
+O3PipeView:retire:245500:store:0
+O3PipeView:fetch:189500:0x000101f0:0:90:flw ft1, 0(a1):FloatMemRead
+O3PipeView:decode:190000
+O3PipeView:rename:190500
+O3PipeView:dispatch:191500
+O3PipeView:issue:244500
+O3PipeView:complete:245000
+O3PipeView:retire:247000:store:0
+O3PipeView:fetch:234500:0x00010204:0:95:addi a2, a2, 4:IntAlu
+O3PipeView:decode:235000
+O3PipeView:rename:235500
+O3PipeView:dispatch:236500
+O3PipeView:issue:244500
+O3PipeView:complete:245000
+O3PipeView:retire:248500:store:0
+O3PipeView:fetch:234500:0x0001020c:0:97:addi a2, a2, 4:IntAlu
+O3PipeView:decode:235000
+O3PipeView:rename:235500
+O3PipeView:dispatch:236500
+O3PipeView:issue:245000
+O3PipeView:complete:245500
+O3PipeView:retire:248500:store:0
+O3PipeView:fetch:234500:0x00010210:0:98:addi a0, a0, 4:IntAlu
+O3PipeView:decode:235000
+O3PipeView:rename:235500
+O3PipeView:dispatch:236500
+O3PipeView:issue:240500
+O3PipeView:complete:241000
+O3PipeView:retire:248500:store:0
+O3PipeView:fetch:234500:0x00010214:0:99:addi a1, a1, 4:IntAlu
+O3PipeView:decode:235000
+O3PipeView:rename:235500
+O3PipeView:dispatch:236500
+O3PipeView:issue:244500
+O3PipeView:complete:245000
+O3PipeView:retire:248500:store:0
+O3PipeView:fetch:234500:0x00010218:0:100:addi a3, a3, -1:IntAlu
+O3PipeView:decode:235000
+O3PipeView:rename:235500
+O3PipeView:dispatch:236500
+O3PipeView:issue:236500
+O3PipeView:complete:237000
+O3PipeView:retire:248500:store:0
+O3PipeView:fetch:234500:0x0001021c:0:101:bne a3, zero, -48:IntAlu
+O3PipeView:decode:235000
+O3PipeView:rename:235500
+O3PipeView:dispatch:236500
+O3PipeView:issue:237000
+O3PipeView:complete:237500
+O3PipeView:retire:248500:store:0
+O3PipeView:fetch:235000:0x00010220:0:102:auipc a0, 1:IntAlu
+O3PipeView:decode:235500
+O3PipeView:rename:236000
+O3PipeView:dispatch:237000
+O3PipeView:issue:237000
+O3PipeView:complete:237500
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:235000:0x00010224:0:103:ld a0, 352(a0):MemRead
+O3PipeView:decode:235500
+O3PipeView:rename:236000
+O3PipeView:dispatch:237000
+O3PipeView:issue:237500
+O3PipeView:complete:238000
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:235000:0x00010228:0:104:auipc a1, 1:IntAlu
+O3PipeView:decode:235500
+O3PipeView:rename:236000
+O3PipeView:dispatch:237000
+O3PipeView:issue:237000
+O3PipeView:complete:237500
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:235000:0x0001022c:0:105:ld a1, 352(a1):MemRead
+O3PipeView:decode:235500
+O3PipeView:rename:236000
+O3PipeView:dispatch:237000
+O3PipeView:issue:237500
+O3PipeView:complete:238000
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:235000:0x00010230:0:106:auipc a2, 1:IntAlu
+O3PipeView:decode:235500
+O3PipeView:rename:236000
+O3PipeView:dispatch:237000
+O3PipeView:issue:237000
+O3PipeView:complete:237500
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:235000:0x00010234:0:107:ld a2, 352(a2):MemRead
+O3PipeView:decode:235500
+O3PipeView:rename:236000
+O3PipeView:dispatch:237000
+O3PipeView:issue:237500
+O3PipeView:complete:238000
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:235000:0x00010238:0:108:addi a3, zero, 2:IntAlu
+O3PipeView:decode:235500
+O3PipeView:rename:236000
+O3PipeView:dispatch:237000
+O3PipeView:issue:237000
+O3PipeView:complete:237500
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:235000:0x0001023c:0:109:flw ft0, 0(a0):FloatMemRead
+O3PipeView:decode:235500
+O3PipeView:rename:236000
+O3PipeView:dispatch:237000
+O3PipeView:issue:0
+O3PipeView:complete:0
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:240000:0x000101ec:0:110:flw ft0, 0(a0):FloatMemRead
+O3PipeView:decode:240500
+O3PipeView:rename:241000
+O3PipeView:dispatch:242000
+O3PipeView:issue:242000
+O3PipeView:complete:242500
+O3PipeView:retire:249000:store:0
+O3PipeView:fetch:240000:0x000101f0:0:111:flw ft1, 0(a1):FloatMemRead
+O3PipeView:decode:240500
+O3PipeView:rename:241000
+O3PipeView:dispatch:242000
+O3PipeView:issue:245000
+O3PipeView:complete:245500
+O3PipeView:retire:249000:store:0
+O3PipeView:fetch:241000:0x00010204:0:116:addi a2, a2, 4:IntAlu
+O3PipeView:decode:241500
+O3PipeView:rename:242000
+O3PipeView:dispatch:243000
+O3PipeView:issue:245500
+O3PipeView:complete:246000
+O3PipeView:retire:249000:store:0
+O3PipeView:fetch:189500:0x000101f4:0:91:fadd_s ft2, ft0, ft1:FloatAdd
+O3PipeView:decode:190000
+O3PipeView:rename:190500
+O3PipeView:dispatch:191500
+O3PipeView:issue:246000
+O3PipeView:complete:247000
+O3PipeView:retire:248000:store:0
+O3PipeView:fetch:189500:0x000101f8:0:92:fsub_s ft3, ft0, ft1:FloatAdd
+O3PipeView:decode:190000
+O3PipeView:rename:190500
+O3PipeView:dispatch:191500
+O3PipeView:issue:246000
+O3PipeView:complete:247000
+O3PipeView:retire:248000:store:0
+O3PipeView:fetch:189500:0x000101fc:0:93:feq_s a4, ft0, ft1:FloatCmp
+O3PipeView:decode:190000
+O3PipeView:rename:190500
+O3PipeView:dispatch:191500
+O3PipeView:issue:246000
+O3PipeView:complete:247000
+O3PipeView:retire:248000:store:0
+O3PipeView:fetch:241000:0x0001020c:0:118:addi a2, a2, 4:IntAlu
+O3PipeView:decode:241500
+O3PipeView:rename:242000
+O3PipeView:dispatch:243000
+O3PipeView:issue:246000
+O3PipeView:complete:246500
+O3PipeView:retire:249500:store:0
+O3PipeView:fetch:241000:0x00010210:0:119:addi a0, a0, 4:IntAlu
+O3PipeView:decode:241500
+O3PipeView:rename:242000
+O3PipeView:dispatch:243000
+O3PipeView:issue:243000
+O3PipeView:complete:243500
+O3PipeView:retire:249500:store:0
+O3PipeView:fetch:241000:0x00010214:0:120:addi a1, a1, 4:IntAlu
+O3PipeView:decode:241500
+O3PipeView:rename:242000
+O3PipeView:dispatch:243000
+O3PipeView:issue:245000
+O3PipeView:complete:245500
+O3PipeView:retire:249500:store:0
+O3PipeView:fetch:241000:0x00010218:0:121:addi a3, a3, -1:IntAlu
+O3PipeView:decode:241500
+O3PipeView:rename:242000
+O3PipeView:dispatch:243000
+O3PipeView:issue:243000
+O3PipeView:complete:243500
+O3PipeView:retire:249500:store:0
+O3PipeView:fetch:241000:0x0001021c:0:122:bne a3, zero, -48:IntAlu
+O3PipeView:decode:241500
+O3PipeView:rename:242000
+O3PipeView:dispatch:243000
+O3PipeView:issue:243500
+O3PipeView:complete:244000
+O3PipeView:retire:249500:store:0
+O3PipeView:fetch:241500:0x00010220:0:123:auipc a0, 1:IntAlu
+O3PipeView:decode:242000
+O3PipeView:rename:242500
+O3PipeView:dispatch:243500
+O3PipeView:issue:243500
+O3PipeView:complete:244000
+O3PipeView:retire:249500:store:0
+O3PipeView:fetch:241500:0x00010224:0:124:ld a0, 352(a0):MemRead
+O3PipeView:decode:242000
+O3PipeView:rename:242500
+O3PipeView:dispatch:243500
+O3PipeView:issue:244000
+O3PipeView:complete:244500
+O3PipeView:retire:249500:store:0
+O3PipeView:fetch:241500:0x00010228:0:125:auipc a1, 1:IntAlu
+O3PipeView:decode:242000
+O3PipeView:rename:242500
+O3PipeView:dispatch:243500
+O3PipeView:issue:243500
+O3PipeView:complete:244000
+O3PipeView:retire:249500:store:0
+O3PipeView:fetch:240000:0x000101f4:0:112:fadd_s ft2, ft0, ft1:FloatAdd
+O3PipeView:decode:240500
+O3PipeView:rename:241000
+O3PipeView:dispatch:242000
+O3PipeView:issue:246500
+O3PipeView:complete:247500
+O3PipeView:retire:249000:store:0
+O3PipeView:fetch:240000:0x000101f8:0:113:fsub_s ft3, ft0, ft1:FloatAdd
+O3PipeView:decode:240500
+O3PipeView:rename:241000
+O3PipeView:dispatch:242000
+O3PipeView:issue:246500
+O3PipeView:complete:247500
+O3PipeView:retire:249000:store:0
+O3PipeView:fetch:240000:0x000101fc:0:114:feq_s a4, ft0, ft1:FloatCmp
+O3PipeView:decode:240500
+O3PipeView:rename:241000
+O3PipeView:dispatch:242000
+O3PipeView:issue:246500
+O3PipeView:complete:247500
+O3PipeView:retire:249000:store:0
+O3PipeView:fetch:241500:0x0001022c:0:126:ld a1, 352(a1):MemRead
+O3PipeView:decode:242000
+O3PipeView:rename:242500
+O3PipeView:dispatch:243500
+O3PipeView:issue:244000
+O3PipeView:complete:244500
+O3PipeView:retire:250000:store:0
+O3PipeView:fetch:241500:0x00010230:0:127:auipc a2, 1:IntAlu
+O3PipeView:decode:242000
+O3PipeView:rename:242500
+O3PipeView:dispatch:243500
+O3PipeView:issue:243500
+O3PipeView:complete:244000
+O3PipeView:retire:250000:store:0
+O3PipeView:fetch:241500:0x00010234:0:128:ld a2, 352(a2):MemRead
+O3PipeView:decode:242000
+O3PipeView:rename:242500
+O3PipeView:dispatch:243500
+O3PipeView:issue:244000
+O3PipeView:complete:244500
+O3PipeView:retire:250000:store:0
+O3PipeView:fetch:241500:0x00010238:0:129:addi a3, zero, 2:IntAlu
+O3PipeView:decode:242000
+O3PipeView:rename:242500
+O3PipeView:dispatch:243500
+O3PipeView:issue:243500
+O3PipeView:complete:244000
+O3PipeView:retire:250000:store:0
+O3PipeView:fetch:241500:0x0001023c:0:130:flw ft0, 0(a0):FloatMemRead
+O3PipeView:decode:242000
+O3PipeView:rename:242500
+O3PipeView:dispatch:243500
+O3PipeView:issue:245500
+O3PipeView:complete:246000
+O3PipeView:retire:250000:store:0
+O3PipeView:fetch:286500:0x00010240:0:131:flw ft1, 0(a1):FloatMemRead
+O3PipeView:decode:287000
+O3PipeView:rename:287500
+O3PipeView:dispatch:288500
+O3PipeView:issue:288500
+O3PipeView:complete:289000
+O3PipeView:retire:291000:store:0
+O3PipeView:fetch:286500:0x00010244:0:132:fmul_s ft2, ft0, ft1:FloatMult
+O3PipeView:decode:287000
+O3PipeView:rename:287500
+O3PipeView:dispatch:288500
+O3PipeView:issue:290000
+O3PipeView:complete:292000
+O3PipeView:retire:293000:store:0
+O3PipeView:fetch:286500:0x00010250:0:135:addi a2, a2, 4:IntAlu
+O3PipeView:decode:287000
+O3PipeView:rename:287500
+O3PipeView:dispatch:288500
+O3PipeView:issue:288500
+O3PipeView:complete:289000
+O3PipeView:retire:297000:store:0
+O3PipeView:fetch:287000:0x0001026c:0:142:auipc a0, 1:IntAlu
+O3PipeView:decode:287500
+O3PipeView:rename:288000
+O3PipeView:dispatch:289000
+O3PipeView:issue:289000
+O3PipeView:complete:289500
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:287000:0x00010270:0:143:ld a0, 300(a0):MemRead
+O3PipeView:decode:287500
+O3PipeView:rename:288000
+O3PipeView:dispatch:289000
+O3PipeView:issue:289500
+O3PipeView:complete:290000
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:287000:0x00010274:0:144:auipc a1, 1:IntAlu
+O3PipeView:decode:287500
+O3PipeView:rename:288000
+O3PipeView:dispatch:289000
+O3PipeView:issue:289000
+O3PipeView:complete:289500
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:287000:0x00010278:0:145:ld a1, 300(a1):MemRead
+O3PipeView:decode:287500
+O3PipeView:rename:288000
+O3PipeView:dispatch:289000
+O3PipeView:issue:289500
+O3PipeView:complete:290000
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:287000:0x0001027c:0:146:auipc a2, 1:IntAlu
+O3PipeView:decode:287500
+O3PipeView:rename:288000
+O3PipeView:dispatch:289000
+O3PipeView:issue:289000
+O3PipeView:complete:289500
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:286500:0x00010258:0:137:addi a2, a2, 4:IntAlu
+O3PipeView:decode:287000
+O3PipeView:rename:287500
+O3PipeView:dispatch:288500
+O3PipeView:issue:289000
+O3PipeView:complete:289500
+O3PipeView:retire:297500:store:0
+O3PipeView:fetch:286500:0x0001025c:0:138:addi a0, a0, 4:IntAlu
+O3PipeView:decode:287000
+O3PipeView:rename:287500
+O3PipeView:dispatch:288500
+O3PipeView:issue:288500
+O3PipeView:complete:289000
+O3PipeView:retire:297500:store:0
+O3PipeView:fetch:287000:0x00010260:0:139:addi a1, a1, 4:IntAlu
+O3PipeView:decode:287500
+O3PipeView:rename:288000
+O3PipeView:dispatch:289000
+O3PipeView:issue:289000
+O3PipeView:complete:289500
+O3PipeView:retire:297500:store:0
+O3PipeView:fetch:287000:0x00010264:0:140:addi a3, a3, -1:IntAlu
+O3PipeView:decode:287500
+O3PipeView:rename:288000
+O3PipeView:dispatch:289000
+O3PipeView:issue:289000
+O3PipeView:complete:289500
+O3PipeView:retire:297500:store:0
+O3PipeView:fetch:287000:0x00010268:0:141:bne a3, zero, -44:IntAlu
+O3PipeView:decode:287500
+O3PipeView:rename:288000
+O3PipeView:dispatch:289000
+O3PipeView:issue:289500
+O3PipeView:complete:290000
+O3PipeView:retire:297500:store:0
+O3PipeView:fetch:286500:0x00010248:0:133:fdiv_s ft3, ft0, ft1:FloatDiv
+O3PipeView:decode:287000
+O3PipeView:rename:287500
+O3PipeView:dispatch:288500
+O3PipeView:issue:290000
+O3PipeView:complete:296000
+O3PipeView:retire:297000:store:0
+O3PipeView:fetch:292500:0x0001023c:0:147:flw ft0, 0(a0):FloatMemRead
+O3PipeView:decode:293000
+O3PipeView:rename:293500
+O3PipeView:dispatch:294500
+O3PipeView:issue:294500
+O3PipeView:complete:295000
+O3PipeView:retire:297500:store:0
+O3PipeView:fetch:293500:0x00010240:0:148:flw ft1, 0(a1):FloatMemRead
+O3PipeView:decode:294000
+O3PipeView:rename:294500
+O3PipeView:dispatch:295500
+O3PipeView:issue:295500
+O3PipeView:complete:296000
+O3PipeView:retire:298000:store:0
+O3PipeView:fetch:234500:0x00010200:0:94:fsw ft2, 0(a2):FloatMemWrite
+O3PipeView:decode:235000
+O3PipeView:rename:235500
+O3PipeView:dispatch:236500
+O3PipeView:issue:247000
+O3PipeView:complete:247500
+O3PipeView:retire:248500:store:301000
+O3PipeView:fetch:293500:0x00010244:0:149:fmul_s ft2, ft0, ft1:FloatMult
+O3PipeView:decode:294000
+O3PipeView:rename:294500
+O3PipeView:dispatch:295500
+O3PipeView:issue:297000
+O3PipeView:complete:299000
+O3PipeView:retire:300000:store:0
+O3PipeView:fetch:293500:0x00010250:0:152:addi a2, a2, 4:IntAlu
+O3PipeView:decode:294000
+O3PipeView:rename:294500
+O3PipeView:dispatch:295500
+O3PipeView:issue:295500
+O3PipeView:complete:296000
+O3PipeView:retire:304000:store:0
+O3PipeView:fetch:234500:0x00010208:0:96:fsw ft3, 0(a2):FloatMemWrite
+O3PipeView:decode:235000
+O3PipeView:rename:235500
+O3PipeView:dispatch:236500
+O3PipeView:issue:247000
+O3PipeView:complete:247500
+O3PipeView:retire:248500:store:305000
+O3PipeView:fetch:293500:0x00010258:0:154:addi a2, a2, 4:IntAlu
+O3PipeView:decode:294000
+O3PipeView:rename:294500
+O3PipeView:dispatch:295500
+O3PipeView:issue:296000
+O3PipeView:complete:296500
+O3PipeView:retire:304500:store:0
+O3PipeView:fetch:293500:0x0001025c:0:155:addi a0, a0, 4:IntAlu
+O3PipeView:decode:294000
+O3PipeView:rename:294500
+O3PipeView:dispatch:295500
+O3PipeView:issue:295500
+O3PipeView:complete:296000
+O3PipeView:retire:304500:store:0
+O3PipeView:fetch:294000:0x00010260:0:156:addi a1, a1, 4:IntAlu
+O3PipeView:decode:294500
+O3PipeView:rename:295000
+O3PipeView:dispatch:296000
+O3PipeView:issue:296000
+O3PipeView:complete:296500
+O3PipeView:retire:304500:store:0
+O3PipeView:fetch:294000:0x00010264:0:157:addi a3, a3, -1:IntAlu
+O3PipeView:decode:294500
+O3PipeView:rename:295000
+O3PipeView:dispatch:296000
+O3PipeView:issue:296000
+O3PipeView:complete:296500
+O3PipeView:retire:304500:store:0
+O3PipeView:fetch:294000:0x00010268:0:158:bne a3, zero, -44:IntAlu
+O3PipeView:decode:294500
+O3PipeView:rename:295000
+O3PipeView:dispatch:296000
+O3PipeView:issue:296500
+O3PipeView:complete:297000
+O3PipeView:retire:304500:store:0
+O3PipeView:fetch:294000:0x0001026c:0:159:auipc a0, 1:IntAlu
+O3PipeView:decode:294500
+O3PipeView:rename:295000
+O3PipeView:dispatch:296000
+O3PipeView:issue:296000
+O3PipeView:complete:296500
+O3PipeView:retire:304500:store:0
+O3PipeView:fetch:294000:0x00010270:0:160:ld a0, 300(a0):MemRead
+O3PipeView:decode:294500
+O3PipeView:rename:295000
+O3PipeView:dispatch:296000
+O3PipeView:issue:296500
+O3PipeView:complete:297000
+O3PipeView:retire:304500:store:0
+O3PipeView:fetch:241000:0x00010200:0:115:fsw ft2, 0(a2):FloatMemWrite
+O3PipeView:decode:241500
+O3PipeView:rename:242000
+O3PipeView:dispatch:243000
+O3PipeView:issue:247500
+O3PipeView:complete:248000
+O3PipeView:retire:249000:store:305001
+O3PipeView:fetch:286500:0x0001024c:0:134:fsw ft2, 0(a2):FloatMemWrite
+O3PipeView:decode:287000
+O3PipeView:rename:287500
+O3PipeView:dispatch:288500
+O3PipeView:issue:292000
+O3PipeView:complete:292500
+O3PipeView:retire:297000:store:301001
+O3PipeView:fetch:241000:0x00010208:0:117:fsw ft3, 0(a2):FloatMemWrite
+O3PipeView:decode:241500
+O3PipeView:rename:242000
+O3PipeView:dispatch:243000
+O3PipeView:issue:247500
+O3PipeView:complete:248000
+O3PipeView:retire:249000:store:305002
+O3PipeView:fetch:286500:0x00010254:0:136:fsw ft3, 0(a2):FloatMemWrite
+O3PipeView:decode:287000
+O3PipeView:rename:287500
+O3PipeView:dispatch:288500
+O3PipeView:issue:296000
+O3PipeView:complete:296500
+O3PipeView:retire:297500:store:305003
+O3PipeView:fetch:294000:0x00010274:0:161:auipc a1, 1:IntAlu
+O3PipeView:decode:294500
+O3PipeView:rename:295000
+O3PipeView:dispatch:296000
+O3PipeView:issue:296000
+O3PipeView:complete:296500
+O3PipeView:retire:305000:store:0
+O3PipeView:fetch:294000:0x00010278:0:162:ld a1, 300(a1):MemRead
+O3PipeView:decode:294500
+O3PipeView:rename:295000
+O3PipeView:dispatch:296000
+O3PipeView:issue:296500
+O3PipeView:complete:297000
+O3PipeView:retire:305000:store:0
+O3PipeView:fetch:294000:0x0001027c:0:163:auipc a2, 1:IntAlu
+O3PipeView:decode:294500
+O3PipeView:rename:295000
+O3PipeView:dispatch:296000
+O3PipeView:issue:296000
+O3PipeView:complete:296500
+O3PipeView:retire:305000:store:0
+O3PipeView:fetch:293500:0x00010248:0:150:fdiv_s ft3, ft0, ft1:FloatDiv
+O3PipeView:decode:294000
+O3PipeView:rename:294500
+O3PipeView:dispatch:295500
+O3PipeView:issue:297000
+O3PipeView:complete:303000
+O3PipeView:retire:304000:store:0
+O3PipeView:fetch:293500:0x0001024c:0:151:fsw ft2, 0(a2):FloatMemWrite
+O3PipeView:decode:294000
+O3PipeView:rename:294500
+O3PipeView:dispatch:295500
+O3PipeView:issue:299000
+O3PipeView:complete:299500
+O3PipeView:retire:304000:store:306000
+O3PipeView:fetch:293500:0x00010254:0:153:fsw ft3, 0(a2):FloatMemWrite
+O3PipeView:decode:294000
+O3PipeView:rename:294500
+O3PipeView:dispatch:295500
+O3PipeView:issue:303000
+O3PipeView:complete:303500
+O3PipeView:retire:304500:store:306500
+O3PipeView:fetch:339500:0x000102be:0:182:c_addi4spn s0, sp, 0:IntAlu
+O3PipeView:decode:340000
+O3PipeView:rename:340500
+O3PipeView:dispatch:0
+O3PipeView:issue:0
+O3PipeView:complete:0
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:339500:0x000102bc:0:181:c_addi4spn s0, sp, 0:IntAlu
+O3PipeView:decode:340000
+O3PipeView:rename:340500
+O3PipeView:dispatch:0
+O3PipeView:issue:0
+O3PipeView:complete:0
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:339500:0x000102ba:0:180:c_addi4spn s0, sp, 0:IntAlu
+O3PipeView:decode:340000
+O3PipeView:rename:340500
+O3PipeView:dispatch:0
+O3PipeView:issue:0
+O3PipeView:complete:0
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:339000:0x000102b8:0:179:c_addi4spn s0, sp, 0:IntAlu
+O3PipeView:decode:339500
+O3PipeView:rename:340000
+O3PipeView:dispatch:0
+O3PipeView:issue:0
+O3PipeView:complete:0
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:339000:0x000102b6:0:178:c_addi4spn s0, sp, 0:IntAlu
+O3PipeView:decode:339500
+O3PipeView:rename:340000
+O3PipeView:dispatch:0
+O3PipeView:issue:0
+O3PipeView:complete:0
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:339000:0x000102b4:0:177:c_addi4spn s0, sp, 0:IntAlu
+O3PipeView:decode:339500
+O3PipeView:rename:340000
+O3PipeView:dispatch:0
+O3PipeView:issue:0
+O3PipeView:complete:0
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:339000:0x000102a0:0:172:addi a2, a2, 32:IntAlu
+O3PipeView:decode:339500
+O3PipeView:rename:340000
+O3PipeView:dispatch:341000
+O3PipeView:issue:342000
+O3PipeView:complete:0
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:339000:0x000102b0:0:176:ecall:No_OpClass
+O3PipeView:decode:339500
+O3PipeView:rename:340000
+O3PipeView:dispatch:341000
+O3PipeView:issue:0
+O3PipeView:complete:0
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:338500:0x0001029c:0:171:vnop:No_OpClass
+O3PipeView:decode:339000
+O3PipeView:rename:339500
+O3PipeView:dispatch:340500
+O3PipeView:issue:340500
+O3PipeView:complete:341000
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:338500:0x00010298:0:170:vnop:No_OpClass
+O3PipeView:decode:339000
+O3PipeView:rename:339500
+O3PipeView:dispatch:340500
+O3PipeView:issue:340500
+O3PipeView:complete:341000
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:338500:0x00010294:0:169:vnop:No_OpClass
+O3PipeView:decode:339000
+O3PipeView:rename:339500
+O3PipeView:dispatch:340500
+O3PipeView:issue:340500
+O3PipeView:complete:341000
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:338500:0x00010290:0:168:vnop:No_OpClass
+O3PipeView:decode:339000
+O3PipeView:rename:339500
+O3PipeView:dispatch:340500
+O3PipeView:issue:340500
+O3PipeView:complete:341000
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:338500:0x0001028c:0:167:vnop:No_OpClass
+O3PipeView:decode:339000
+O3PipeView:rename:339500
+O3PipeView:dispatch:340500
+O3PipeView:issue:340500
+O3PipeView:complete:341000
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:338500:0x00010284:0:165:addi t0, zero, 4:IntAlu
+O3PipeView:decode:339000
+O3PipeView:rename:339500
+O3PipeView:dispatch:340500
+O3PipeView:issue:340500
+O3PipeView:complete:341000
+O3PipeView:retire:343000:store:0
+O3PipeView:fetch:339000:0x000102ac:0:175:addi a7, zero, 93:IntAlu
+O3PipeView:decode:339500
+O3PipeView:rename:340000
+O3PipeView:dispatch:341000
+O3PipeView:issue:341000
+O3PipeView:complete:341500
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:339000:0x000102a8:0:174:addi a0, zero, 0:IntAlu
+O3PipeView:decode:339500
+O3PipeView:rename:340000
+O3PipeView:dispatch:341000
+O3PipeView:issue:341000
+O3PipeView:complete:341500
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:339000:0x000102a4:0:173:vnop:No_OpClass
+O3PipeView:decode:339500
+O3PipeView:rename:340000
+O3PipeView:dispatch:341000
+O3PipeView:issue:341000
+O3PipeView:complete:341500
+O3PipeView:retire:0:store:0
+O3PipeView:fetch:338500:0x00010288:0:166:vsetvli t0, t0, e32, m1, ta, ma:SimdConfig
+O3PipeView:decode:339000
+O3PipeView:rename:339500
+O3PipeView:dispatch:340500
+O3PipeView:issue:341000
+O3PipeView:complete:341500
+O3PipeView:retire:343000:store:0
+O3PipeView:fetch:338500:0x00010280:0:164:ld a2, 300(a2):MemRead
+O3PipeView:decode:339000
+O3PipeView:rename:339500
+O3PipeView:dispatch:340500
+O3PipeView:issue:340500
+O3PipeView:complete:341000
+O3PipeView:retire:343000:store:0
+O3PipeView:fetch:344000:0x0001028c:0:183:vle32_v_micro v1, 0(a0), zero:SimdUnitStrideLoad
+O3PipeView:decode:344500
+O3PipeView:rename:345000
+O3PipeView:dispatch:346000
+O3PipeView:issue:346000
+O3PipeView:complete:346500
+O3PipeView:retire:348500:store:0
+O3PipeView:fetch:344000:0x000102a0:0:188:addi a2, a2, 32:IntAlu
+O3PipeView:decode:344500
+O3PipeView:rename:345000
+O3PipeView:dispatch:346000
+O3PipeView:issue:346000
+O3PipeView:complete:346500
+O3PipeView:retire:350000:store:0
+O3PipeView:fetch:344000:0x000102a8:0:190:addi a0, zero, 0:IntAlu
+O3PipeView:decode:344500
+O3PipeView:rename:345000
+O3PipeView:dispatch:346000
+O3PipeView:issue:346000
+O3PipeView:complete:346500
+O3PipeView:retire:350000:store:0
+O3PipeView:fetch:344500:0x000102ac:0:191:addi a7, zero, 93:IntAlu
+O3PipeView:decode:345500
+O3PipeView:rename:346000
+O3PipeView:dispatch:347000
+O3PipeView:issue:347000
+O3PipeView:complete:347500
+O3PipeView:retire:350000:store:0
+O3PipeView:fetch:344000:0x00010290:0:184:vle32_v_micro v2, 0(a1), zero:SimdUnitStrideLoad
+O3PipeView:decode:344500
+O3PipeView:rename:345000
+O3PipeView:dispatch:346000
+O3PipeView:issue:346000
+O3PipeView:complete:346500
+O3PipeView:retire:349000:store:0
+O3PipeView:fetch:344000:0x00010298:0:186:vmul_vv_micro v4, v1, v2:SimdMult
+O3PipeView:decode:344500
+O3PipeView:rename:345000
+O3PipeView:dispatch:346000
+O3PipeView:issue:348000
+O3PipeView:complete:348500
+O3PipeView:retire:349500:store:0
+O3PipeView:fetch:344000:0x00010294:0:185:vadd_vv_micro v3, v1, v2:SimdAdd
+O3PipeView:decode:344500
+O3PipeView:rename:345000
+O3PipeView:dispatch:346000
+O3PipeView:issue:348000
+O3PipeView:complete:348500
+O3PipeView:retire:349500:store:0
+O3PipeView:fetch:344000:0x0001029c:0:187:vse32_v_micro v3, 0(a2):SimdUnitStrideStore
+O3PipeView:decode:344500
+O3PipeView:rename:345000
+O3PipeView:dispatch:346000
+O3PipeView:issue:348500
+O3PipeView:complete:349000
+O3PipeView:retire:350000:store:352000
+O3PipeView:fetch:344000:0x000102a4:0:189:vse32_v_micro v4, 0(a2):SimdUnitStrideStore
+O3PipeView:decode:344500
+O3PipeView:rename:345000
+O3PipeView:dispatch:346000
+O3PipeView:issue:348500
+O3PipeView:complete:349000
+O3PipeView:retire:350000:store:352001
