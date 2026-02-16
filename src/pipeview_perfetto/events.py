@@ -17,6 +17,7 @@ class MetadataEvent(Event):
     ph: str = "M"
     tid: Optional[int] = None
 
+
 @dataclass
 class DurationEvent(Event):
     ts: int

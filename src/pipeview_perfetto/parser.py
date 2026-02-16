@@ -60,6 +60,7 @@ class PipeViewParser:
                 stages={},
                 stage_order=[]
             )
+
             self.current_instr.stages[PipelineStage.FETCH] = tick
             self.current_instr.stage_order.append(PipelineStage.FETCH)
             return
@@ -68,8 +69,10 @@ class PipeViewParser:
         if stage_match and self.current_instr is not None:
             stage_name = stage_match.group(1).lower()
             tick = int(stage_match.group(2))
+
             if stage_name in self.stage_map:
                 stage = self.stage_map[stage_name]
                 self.current_instr.stages[stage] = tick
+
                 if stage not in self.current_instr.stage_order:
                     self.current_instr.stage_order.append(stage)

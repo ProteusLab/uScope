@@ -1,10 +1,6 @@
 {
-    "PID_INSTRUCTION_TIMELINE": 1,
     "PID_PIPELINE_STAGES_BASE": 100,
     "PID_EXECUTION_UNITS_BASE": 200,
-    "MAX_STAGE_WIDTH": 256,
-    "MAX_EXEC_UNIT_WIDTH": 8,
-    "PROCESS_NAMES": {
-        "1": "Instruction Timeline"
-    }
+    "MAX_PIPE_WIDTH": 256,
+    "MAX_EXEC_UNIT_WIDTH": 8
 }

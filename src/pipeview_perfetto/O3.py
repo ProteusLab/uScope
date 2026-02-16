@@ -11,6 +11,7 @@ class PipelineStage(Enum):
     COMPLETE = "complete"
     RETIRE = "retire"
 
+
 @dataclass
 class Instruction:
     seq_num: int

@@ -17,16 +17,13 @@ class ChromeTracingConverter:
         self.FU_units = config.FU_units
         self.colors = config.colors
 
-        self.PID_INSTRUCTION_TIMELINE = settings.PID_INSTRUCTION_TIMELINE
         self.PID_PIPELINE_STAGES_BASE = settings.PID_PIPELINE_STAGES_BASE
         self.PID_EXECUTION_UNITS_BASE = settings.PID_EXECUTION_UNITS_BASE
-        self.PROCESS_NAMES = settings.PROCESS_NAMES
-        self.MAX_STAGE_WIDTH = settings.MAX_STAGE_WIDTH
+        self.MAX_PIPE_WIDTH = settings.MAX_PIPE_WIDTH
         self.MAX_EXEC_UNIT_WIDTH = settings.MAX_EXEC_UNIT_WIDTH
 
         self.default_colors = self.colors.default
         self.stage_names = config.stage_names
-        # self.stage_process_names = config.stage_process_names
 
         self.stage_managers: Dict[PipelineStage, ThreadPoolManager] = {}
         self.exec_unit_managers: Dict[str, ThreadPoolManager] = {}
@@ -54,24 +51,8 @@ class ChromeTracingConverter:
         return family[idx]
 
     def _add_metadata(self):
-        # self._add_instruction_timeline_metadata()
         self._add_pipeline_stages_metadata()
         self._add_execution_units_metadata()
-
-    def _add_instruction_timeline_metadata(self):
-        pid = self.PID_INSTRUCTION_TIMELINE
-        self.metadata_events.append(MetadataEvent(
-            name="process_name", pid=pid,
-            args={"name": self.PROCESS_NAMES[str(pid)]}
-        ))
-        self.metadata_events.append(MetadataEvent(
-            name="thread_name", pid=pid, tid=0,
-            args={"name": "Instructions"}
-        ))
-        self.metadata_events.append(MetadataEvent(
-            name="thread_sort_index", pid=pid, tid=0,
-            args={"sort_index": -1}
-        ))
 
     def _add_pipeline_stages_metadata(self):
         stage_order = [
@@ -85,7 +66,7 @@ class ChromeTracingConverter:
             pid = self.PID_PIPELINE_STAGES_BASE + id
 
             manager = ThreadPoolManager(
-                max_width=self.MAX_STAGE_WIDTH,
+                max_width=self.MAX_PIPE_WIDTH,
                 pid=pid,
                 thread_name_prefix=stage_name,
                 metadata_events=self.metadata_events
