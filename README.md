@@ -7,6 +7,10 @@
 [![Python 3.8+](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
+<p align="center">
+  <img src="images/quick_start.mp4" alt="Video">
+</p>
+
 **PipeViewPerfetto** converts the [O3PipeView debug output](https://www.gem5.org/documentation/general_docs/cpu_models/visualization/) from the [gem5](https://www.gem5.org) simulator into a JSON trace that can be loaded into [Perfetto](https://perfetto.dev/) (or any Chrome Tracing viewer).
 
 This gives researchers an interactive, zoomable timeline of O3CPU pipeline stages and execution unit occupancy, making microarchitectural analysis much easier.
