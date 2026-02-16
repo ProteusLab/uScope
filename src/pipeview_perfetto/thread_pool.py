@@ -17,7 +17,7 @@ class ThreadPoolManager:
         self.pool.append((end_time, 0))
         self.next_tid = 1
 
-    def get_or_create_thread(self, start_time: int, end_time: int) -> Tuple[int, int]:
+    def assign_thread(self, start_time: int, end_time: int) -> Tuple[int, int]:
         for i, (last_end, tid) in enumerate(self.pool):
             if last_end <= start_time:
                 self.pool[i] = (end_time, tid)
@@ -39,6 +39,6 @@ class ThreadPoolManager:
             return self.pid, new_tid
 
         earliest_idx = min(range(len(self.pool)), key=lambda i: self.pool[i][0])
-        earliest_end, tid = self.pool[earliest_idx]
+        _, tid = self.pool[earliest_idx]
         self.pool[earliest_idx] = (end_time, tid)
         return self.pid, tid

@@ -1,7 +1,7 @@
 from typing import Dict, List, Tuple
 
-from .O3 import PipelineStage
-from .utils import OpClass, stable_hash, get_mnemonic
+from .O3 import PipelineStage, Instruction, OpClass
+from .utils import stable_hash
 from .events import MetadataEvent, DurationEvent
 from .thread_pool import ThreadPoolManager
 from .config import Config
@@ -40,14 +40,13 @@ class ChromeTracingConverter:
         return sorted(self.parser.instructions.values(), key=lambda x: x.seq_num)
 
     def _opclass_to_unit(self, opclass: str) -> str:
-        return self.FU_units.get(opclass, "No_OpClass")
+        return self.FU_units.get(opclass, OpClass.No_OpClass.value)
 
-    def _get_cname_for_instruction(self, instr) -> str:
-        mnemonic = get_mnemonic(instr)
+    def _get_cname_for_instruction(self, instr : Instruction) -> str:
         opclass = instr.opclass or 'Unknown'
         unit = self._opclass_to_unit(opclass)
         family = self.colors.get(unit, self.default_colors)
-        idx = stable_hash(mnemonic, len(family))
+        idx = stable_hash(instr.mnemonic, len(family))
         return family[idx]
 
     def _add_metadata(self):
@@ -60,6 +59,7 @@ class ChromeTracingConverter:
             PipelineStage.DISPATCH, PipelineStage.ISSUE,
             PipelineStage.COMPLETE, PipelineStage.RETIRE
         ]
+
         for id, stage in enumerate(stage_order):
             stage_name = self.stage_names[stage.value]
             process_name = f"{(id + 1):02d}_{stage_name}"
@@ -123,16 +123,14 @@ class ChromeTracingConverter:
                 args={"sort_index": 0}
             ))
 
-    def _assign_thread_for_stage(self, stage: PipelineStage,
-                                         start_time: int, end_time: int) -> Tuple[int, int]:
-        return self.stage_managers[stage].get_or_create_thread(start_time, end_time)
+    def _assign_thread_for_stage(self, stage: PipelineStage, start_time: int, end_time: int) -> Tuple[int, int]:
+        return self.stage_managers[stage].assign_thread(start_time, end_time)
 
-    def _assign_thread_for_exec_unit(self, unit_name: str,
-                                             start_time: int, end_time: int) -> Tuple[int, int]:
-        return self.exec_unit_managers[unit_name].get_or_create_thread(start_time, end_time)
+    def _assign_thread_for_exec_unit(self, unit_name: str, start_time: int, end_time: int) -> Tuple[int, int]:
+        return self.exec_unit_managers[unit_name].assign_thread(start_time, end_time)
 
-    def _add_pipeline_stage_events(self, instr):
-        mnemonic = get_mnemonic(instr)
+    def _add_pipeline_stage_events(self, instr : Instruction):
+        mnemonic = instr.mnemonic
         cname = self._get_cname_for_instruction(instr)
 
         active = [(st, instr.stages[st]) for st in instr.stage_order if instr.stages.get(st, 0) > 0]
@@ -146,7 +144,7 @@ class ChromeTracingConverter:
             pid, tid = self._assign_thread_for_stage(stage, start, end)
 
             self.duration_events.append(DurationEvent(
-                name=get_mnemonic(instr),
+                name=mnemonic,
                 cat=self.stage_names[stage.value],
                 ts=tick,
                 dur=dur,
@@ -162,9 +160,11 @@ class ChromeTracingConverter:
                 }
             ))
 
-    def _add_execution_unit_events(self, instr):
+    def _add_execution_unit_events(self, instr : Instruction):
         if not instr.opclass:
             return
+
+        mnemonic = instr.mnemonic
 
         issue = instr.stages.get(PipelineStage.ISSUE, 0)
         complete = instr.stages.get(PipelineStage.COMPLETE, 0)
@@ -179,7 +179,7 @@ class ChromeTracingConverter:
         dur = complete - issue
 
         self.duration_events.append(DurationEvent(
-            name=get_mnemonic(instr),
+            name=mnemonic,
             cat=unit,
             ts=issue,
             dur=dur,
@@ -192,6 +192,6 @@ class ChromeTracingConverter:
                 "OpClass": instr.opclass,
                 "Unit": unit,
                 "Duration": dur,
-                "Mnemonic": get_mnemonic(instr)
+                "Mnemonic": mnemonic
             }
         ))
