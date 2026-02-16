@@ -8,7 +8,7 @@
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
 <p align="center">
-  <img src="images/quick_start.mp4" alt="Video">
+  <img src="images/quick_start.gif" alt="Video">
 </p>
 
 **PipeViewPerfetto** converts the [O3PipeView debug output](https://www.gem5.org/documentation/general_docs/cpu_models/visualization/) from the [gem5](https://www.gem5.org) simulator into a JSON trace that can be loaded into [Perfetto](https://perfetto.dev/) (or any Chrome Tracing viewer).
