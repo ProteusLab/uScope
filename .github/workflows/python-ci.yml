@@ -32,7 +32,7 @@ jobs:
         pipeview-perfetto --input-file examples/reference/reference.out \
                           --output-file reference.json
 
-
     - name: Compare output with reference
       run: |
-        diff -u reference.json examples/reference/reference.json
+        gunzip -c examples/reference/reference.json.gz > expected.json
+        diff -u reference.json expected.json
