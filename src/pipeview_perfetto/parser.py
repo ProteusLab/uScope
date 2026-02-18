@@ -14,15 +14,7 @@ class PipeViewParser:
         self.instructions = {}
         self.current_seq_num = None
         self.current_instr = None
-        self.stage_map = {
-            'fetch': PipelineStage.FETCH,
-            'decode': PipelineStage.DECODE,
-            'rename': PipelineStage.RENAME,
-            'dispatch': PipelineStage.DISPATCH,
-            'issue': PipelineStage.ISSUE,
-            'complete': PipelineStage.COMPLETE,
-            'retire': PipelineStage.RETIRE,
-        }
+        self.stage_map = { f"{stage}" : stage for stage in PipelineStage.order() }
 
     def parse_file(self, filename: str):
         with open(filename, 'r') as f:

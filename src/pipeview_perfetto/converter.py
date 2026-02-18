@@ -1,6 +1,6 @@
 from typing import Dict, List, Tuple
 
-from .O3 import PipelineStage, Instruction, OpClass
+from .O3 import PipelineStage, Instruction
 from .utils import stable_hash
 from .events import MetadataEvent, DurationEvent
 from .thread_pool import ThreadPoolManager
@@ -40,7 +40,7 @@ class ChromeTracingConverter:
         return sorted(self.parser.instructions.values(), key=lambda x: x.seq_num)
 
     def _opclass_to_unit(self, opclass: str) -> str:
-        return self.FU_units.get(opclass, OpClass.No_OpClass.value)
+        return self.FU_units.get(opclass, "No_OpClass")
 
     def _get_cname_for_instruction(self, instr : Instruction) -> str:
         opclass = instr.opclass or 'Unknown'
@@ -54,13 +54,7 @@ class ChromeTracingConverter:
         self._add_execution_units_metadata()
 
     def _add_pipeline_stages_metadata(self):
-        stage_order = [
-            PipelineStage.FETCH, PipelineStage.DECODE, PipelineStage.RENAME,
-            PipelineStage.DISPATCH, PipelineStage.ISSUE,
-            PipelineStage.COMPLETE, PipelineStage.RETIRE
-        ]
-
-        for id, stage in enumerate(stage_order):
+        for id, stage in enumerate(PipelineStage.order()):
             stage_name = self.stage_names[stage.value]
             process_name = f"{(id + 1):02d}_{stage_name}"
             pid = self.PID_PIPELINE_STAGES_BASE + id
