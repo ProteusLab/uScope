@@ -1,0 +1,9 @@
+{
+    "fetch": "Fetch",
+    "decode": "Decode",
+    "rename": "Rename",
+    "dispatch": "Dispatch",
+    "issue": "Issue",
+    "complete": "Complete",
+    "retire": "Retire"
+}

@@ -1,0 +1,84 @@
+{
+    "IntALU": [
+        "rail_idle",
+        "bad",
+        "thread_state_iowait",
+        "cq_build_failed"
+    ],
+    "IntMultDiv": [
+        "rail_animation",
+        "cq_build_attempt_failed",
+        "terrible",
+        "head_dump_child_node_arrow"
+    ],
+    "FP_ALU": [
+        "good",
+        "rail_load",
+        "cq_build_attempt_passed"
+    ],
+    "FP_MultDiv": [
+        "good",
+        "rail_load",
+        "cq_build_attempt_passed",
+        "thread_state_running"
+    ],
+    "SIMD_Unit": [
+        "thread_state_uninterruptible",
+        "startup",
+        "cq_build_passed",
+        "cq_build_attempt_running",
+        "yellow"
+    ],
+    "PredALU": [
+        "grey",
+        "thread_state_sleeping",
+        "cq_build_abandoned",
+        "thread_state_unknown"
+    ],
+    "Matrix_Unit": [
+        "bad",
+        "terrible",
+        "head_dump_child_node_arrow",
+        "thread_state_uninterruptible"
+    ],
+    "System_Unit": [
+        "grey",
+        "thread_state_sleeping",
+        "thread_state_unknown"
+    ],
+    "ReadPort": [
+        "rail_response",
+        "thread_state_runnable",
+        "background_memory_dump"
+    ],
+    "WritePort": [
+        "rail_load",
+        "good",
+        "thread_state_running",
+        "cq_build_attempt_passed"
+    ],
+    "RdWrPort": [
+        "startup",
+        "yellow",
+        "cq_build_attempt_running"
+    ],
+    "OTHER": [
+        "grey",
+        "thread_state_sleeping",
+        "cq_build_abandoned",
+        "thread_state_unknown"
+    ],
+    "No_OpClass": [
+        "grey",
+        "cq_build_abandoned",
+        "thread_state_sleeping",
+        "thread_state_unknown"
+    ],
+    "default" : [
+        "generic_work",
+        "startup",
+        "good",
+        "rail_idle",
+        "yellow"
+    ]
+}

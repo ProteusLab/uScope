@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "uScope"
+version = "0.1.0"
+description = "Convert gem5 O3PipeView traces to Perfetto JSON"
+readme = "README.md"
+authors = [{name = "ProteusLab", email = "shurygin.aa@frtk.ru"}]
+license = {text = "Apache 2.0"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache 2.0 License",
+]
+requires-python = ">=3.8"
+
+[project.scripts]
+uScope = "uScope.main:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
