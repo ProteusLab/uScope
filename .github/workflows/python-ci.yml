@@ -29,7 +29,7 @@ jobs:
 
     - name: Run conversion on reference example
       run: |
-        pipeview-perfetto --input-file examples/reference/reference.out \
+        uScope --input-file examples/reference/reference.out \
                           --output-file reference.json
 
     - name: Compare output with reference
