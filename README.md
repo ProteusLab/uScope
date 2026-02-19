@@ -47,7 +47,7 @@ pip install -e .
 2. Convert the trace:
 
 ```bash
-pipeview-perfetto --input-file trace.out --output trace.json
+uScope --input-file trace.out --output trace.json
 ```
 
 3. Open ```trace.json``` in Perfetto UI to explore the pipeline.

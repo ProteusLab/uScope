@@ -36,7 +36,7 @@ The trace file reference.out will be created in the gem5 output directory (usual
 In the gem5 output directory (e.g., ```m5out```), run tool:
 
 ```bash
-pipeview-perfetto --input-file reference.out --output reference.json
+uScope --input-file reference.out --output reference.json
 ```
 
 ### 4. Visualize the result
