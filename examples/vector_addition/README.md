@@ -29,6 +29,6 @@ Both traces were captured under identical gem5 simulation conditions (O3CPU, sam
 
 **Performance gain:**
 
-$$\frac{120.004 - 115.528}{120.004} \times 100\% \approx \mathbf{3.73\%}$$
+$$\frac{120.004 - 115.528}{120.004} \times 100\% \approx 3.73\%$$
 
 The vectorised version completes the addition approximately **3.7% faster** than the scalar loop for this small 8‑element array.
