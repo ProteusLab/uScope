@@ -2,7 +2,7 @@
 
 - [Reference sample](reference.S) assembly program is designed to test a wide range of [Functional Units in an O3CPU Gem5 simulation](https://github.com/gem5/gem5/blob/stable/src/cpu/o3/FUPool.py).
 
-- It sequentially executes blocks of instructions targeting ```IntALU```, ```IntMultDiv```, ```FP_ALU```, ```FP_MultDiv```, ```SIMD_Unit```, ```ReadPort```, and ```WritePort```. [The resulting O3PipeView trace](reference.json) is used as a reference to verify that PipeViewPerfetto correctly maps all operation classes to their respective functional units in the Perfetto JSON output.
+- It sequentially executes blocks of instructions targeting ```IntALU```, ```IntMultDiv```, ```FP_ALU```, ```FP_MultDiv```, ```SIMD_Unit```, ```ReadPort```, and ```WritePort```. [The resulting O3PipeView trace](reference.json) is used as a reference to verify that uScope correctly maps all operation classes to their respective functional units in the Perfetto JSON output.
 
 ## Usage
 
@@ -31,7 +31,7 @@ Navigate to your gem5 build directory and execute:
 
 The trace file reference.out will be created in the gem5 output directory (usually ```m5out/```).
 
-### 3. Convert the trace using PipeViewPerfetto
+### 3. Convert the trace using uScope
 
 In the gem5 output directory (e.g., ```m5out```), run tool:
 

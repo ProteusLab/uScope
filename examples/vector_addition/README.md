@@ -22,7 +22,7 @@ It loads vectors, executes a single vector add, and stores the result, highlight
 
 Both traces were captured under identical gem5 simulation conditions (O3CPU, same memory configuration). The execution times reported below are in the **equivalent time units used by Chrome Tracing / Perfetto** – they are not real milliseconds but are directly comparable between the two runs.
 
-| Version  | Execution Time (Chrome Tracing units)  |
+| Version  | Execution Time  |
 |----------|----------------------------------------|
 | Scalar addition sample   |                   120.004              |
 | Vector addition sample   |                   115.528              |

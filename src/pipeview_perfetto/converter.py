@@ -5,16 +5,21 @@ from .utils import stable_hash
 from .events import MetadataEvent, DurationEvent
 from .thread_pool import ThreadPoolManager
 from .config import Config
+from .parser import PipeViewParser
 
 class ChromeTracingConverter:
-    def __init__(self, parser, config : Config):
-        self.parser = parser
-        self.config = config
+    def __init__(self, parser : PipeViewParser, config : Config, exclude_exec : bool = False, exclude_pipeline : bool = False):
+        self.parser : PipeViewParser = parser
+        self.config : Config = config
+
+        self.exclude_exec : bool = exclude_exec
+        self.exclude_pipeline : bool = exclude_pipeline
+
         self.metadata_events: List[MetadataEvent] = []
         self.duration_events: List[DurationEvent] = []
 
         settings = config.settings
-        self.FU_units = config.FU_units
+        self.func_units = config.func_units
         self.colors = config.colors
 
         self.PID_PIPELINE_STAGES_BASE = settings.PID_PIPELINE_STAGES_BASE
@@ -31,8 +36,10 @@ class ChromeTracingConverter:
     def convert(self) -> List[dict]:
         self._add_metadata()
         for instr in self.instructions_by_seq_num():
-            self._add_pipeline_stage_events(instr)
-            self._add_execution_unit_events(instr)
+            if not self.exclude_pipeline:
+                self._add_pipeline_stage_events(instr)
+            if not self.exclude_exec:
+                self._add_execution_unit_events(instr)
 
         return [e.to_dict() for e in self.metadata_events + self.duration_events]
 
@@ -40,18 +47,19 @@ class ChromeTracingConverter:
         return sorted(self.parser.instructions.values(), key=lambda x: x.seq_num)
 
     def _opclass_to_unit(self, opclass: str) -> str:
-        return self.FU_units.get(opclass, "No_OpClass")
+        return self.func_units.get(opclass, "No_OpClass")
 
     def _get_cname_for_instruction(self, instr : Instruction) -> str:
-        opclass = instr.opclass or 'Unknown'
-        unit = self._opclass_to_unit(opclass)
+        unit = self._opclass_to_unit(instr.opclass)
         family = self.colors.get(unit, self.default_colors)
         idx = stable_hash(instr.mnemonic, len(family))
         return family[idx]
 
     def _add_metadata(self):
-        self._add_pipeline_stages_metadata()
-        self._add_execution_units_metadata()
+        if not self.exclude_pipeline:
+            self._add_pipeline_stages_metadata()
+        if not self.exclude_exec:
+            self._add_execution_units_metadata()
 
     def _add_pipeline_stages_metadata(self):
         for id, stage in enumerate(PipelineStage.order()):
@@ -150,7 +158,7 @@ class ChromeTracingConverter:
                     "SeqNum": instr.seq_num,
                     "Stage": self.stage_names[stage.value],
                     "OpClass": instr.opclass,
-                    "Mnemonic": mnemonic
+                    "Disasm": instr.disasm
                 }
             ))
 
@@ -186,6 +194,6 @@ class ChromeTracingConverter:
                 "OpClass": instr.opclass,
                 "Unit": unit,
                 "Duration": dur,
-                "Mnemonic": mnemonic
+                "Disasm": instr.disasm
             }
         ))

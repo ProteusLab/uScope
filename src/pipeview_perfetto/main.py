@@ -32,6 +32,19 @@ def main():
         help="Directory containing configuration JSON files. "
              "If not provided, uses './configs' relative to the script."
     )
+    parser.add_argument(
+        "--exclude-pipeline",
+        default=False,
+        help="Exclude Pipeline events in the converter",
+        action='store_true',
+    )
+    parser.add_argument(
+        "--exclude-exec",
+        default=False,
+        help="Exclude FuncUnits events in the converter",
+        action='store_true',
+    )
+
     args = parser.parse_args()
 
     input_file = args.input_file
@@ -56,7 +69,7 @@ def main():
 
     config = load_config(args.config_path)
 
-    converter = ChromeTracingConverter(trace_parser, config)
+    converter = ChromeTracingConverter(trace_parser, config, args.exclude_exec, args.exclude_pipeline)
     events = converter.convert()
 
     logging.warning(f"Loading {output_file}")
