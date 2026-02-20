@@ -27,6 +27,12 @@ jobs:
         python -m pip install --upgrade pip
         pip install -e .
 
+    - name: Install test dependencies
+      run: pip install pytest pytest-cov
+
+    - name: Run Unit tests with coverage
+      run: pytest --cov=src/uScope tests/
+
     - name: Run conversion on reference example
       run: |
         uScope --input-file examples/reference/reference.out \
