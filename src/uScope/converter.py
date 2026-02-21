@@ -1,16 +1,17 @@
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Any
 
 from .O3 import PipelineStage, Instruction
-from .utils import stable_hash
 from .events import MetadataEvent, DurationEvent
 from .thread_pool import ThreadPoolManager
-from .config import Config
+from .config import IConfig
 from .parser import PipeViewParser
 
 class ChromeTracingConverter:
-    def __init__(self, parser : PipeViewParser, config : Config, exclude_exec : bool = False, exclude_pipeline : bool = False):
+    def __init__(self, parser : PipeViewParser, config : IConfig, exclude_exec : bool = False, exclude_pipeline : bool = False):
         self.parser : PipeViewParser = parser
-        self.config : Config = config
+        if not isinstance(config, IConfig):
+            raise TypeError(f"Unexpetcted Config type {type(config).__name__}. Please, derive you configuration class from {IConfig}")
+        self.config : IConfig = config
 
         self.exclude_exec : bool = exclude_exec
         self.exclude_pipeline : bool = exclude_pipeline
@@ -18,20 +19,8 @@ class ChromeTracingConverter:
         self.metadata_events: List[MetadataEvent] = []
         self.duration_events: List[DurationEvent] = []
 
-        settings = config.settings
-        self.func_units = config.func_units
-        self.colors = config.colors
-
-        self.PID_PIPELINE_STAGES_BASE = settings.PID_PIPELINE_STAGES_BASE
-        self.PID_EXECUTION_UNITS_BASE = settings.PID_EXECUTION_UNITS_BASE
-        self.MAX_PIPE_WIDTH = settings.MAX_PIPE_WIDTH
-        self.MAX_EXEC_UNIT_WIDTH = settings.MAX_EXEC_UNIT_WIDTH
-
-        self.default_colors = self.colors.default
-        self.stage_names = config.stage_names
-
         self.stage_managers: Dict[PipelineStage, ThreadPoolManager] = {}
-        self.exec_unit_managers: Dict[str, ThreadPoolManager] = {}
+        self.func_units_managers: Dict[str, ThreadPoolManager] = {}
 
     def convert(self) -> List[dict]:
         self._add_metadata()
@@ -46,15 +35,6 @@ class ChromeTracingConverter:
     def instructions_by_seq_num(self):
         return sorted(self.parser.instructions.values(), key=lambda x: x.seq_num)
 
-    def _opclass_to_unit(self, opclass: str) -> str:
-        return self.func_units.get(opclass, "No_OpClass")
-
-    def _get_cname_for_instruction(self, instr : Instruction) -> str:
-        unit = self._opclass_to_unit(instr.opclass)
-        family = self.colors.get(unit, self.default_colors)
-        idx = stable_hash(instr.mnemonic, len(family))
-        return family[idx]
-
     def _add_metadata(self):
         if not self.exclude_pipeline:
             self._add_pipeline_stages_metadata()
@@ -63,12 +43,12 @@ class ChromeTracingConverter:
 
     def _add_pipeline_stages_metadata(self):
         for id, stage in enumerate(PipelineStage.order()):
-            stage_name = self.stage_names[stage.value]
+            stage_name = self.config.get_stage_name(stage)
             process_name = f"{(id + 1):02d}_{stage_name}"
-            pid = self.PID_PIPELINE_STAGES_BASE + id
+            pid = self.config.pipeline_pid + id
 
             manager = ThreadPoolManager(
-                max_width=self.MAX_PIPE_WIDTH,
+                max_width=self.config.pipeline_width,
                 pid=pid,
                 thread_name_prefix=stage_name,
                 metadata_events=self.metadata_events
@@ -96,18 +76,18 @@ class ChromeTracingConverter:
         unit_names = set()
         for instr in self.instructions_by_seq_num():
             if instr.opclass:
-                unit_names.add(self._opclass_to_unit(instr.opclass))
+                unit_names.add(self.config.get_func_unit(instr.opclass))
 
         for i, unit_name in enumerate(sorted(unit_names)):
-            pid = self.PID_EXECUTION_UNITS_BASE + i
+            pid = self.config.func_units_pid + i
 
             manager = ThreadPoolManager(
-                max_width=self.MAX_EXEC_UNIT_WIDTH,
+                max_width=self.config.func_units_width,
                 pid=pid,
                 thread_name_prefix=unit_name,
                 metadata_events=self.metadata_events
             )
-            self.exec_unit_managers[unit_name] = manager
+            self.func_units_managers[unit_name] = manager
             manager.add_initial_thread(0)
 
             self.metadata_events.append(MetadataEvent(
@@ -128,12 +108,12 @@ class ChromeTracingConverter:
     def _assign_thread_for_stage(self, stage: PipelineStage, start_time: int, end_time: int) -> Tuple[int, int]:
         return self.stage_managers[stage].assign_thread(start_time, end_time)
 
-    def _assign_thread_for_exec_unit(self, unit_name: str, start_time: int, end_time: int) -> Tuple[int, int]:
-        return self.exec_unit_managers[unit_name].assign_thread(start_time, end_time)
+    def _assign_thread_for_func_units(self, unit_name: str, start_time: int, end_time: int) -> Tuple[int, int]:
+        return self.func_units_managers[unit_name].assign_thread(start_time, end_time)
 
     def _add_pipeline_stage_events(self, instr : Instruction):
         mnemonic = instr.mnemonic
-        cname = self._get_cname_for_instruction(instr)
+        cname = self.config.get_color_for_instr(instr)
 
         active = [(st, instr.stages[st]) for st in instr.stage_order if instr.stages.get(st, 0) > 0]
         if not active:
@@ -147,7 +127,7 @@ class ChromeTracingConverter:
 
             self.duration_events.append(DurationEvent(
                 name=mnemonic,
-                cat=self.stage_names[stage.value],
+                cat=self.config.get_stage_name(stage),
                 ts=tick,
                 dur=dur,
                 pid=pid,
@@ -156,7 +136,7 @@ class ChromeTracingConverter:
                 args={
                     "PC": instr.pc,
                     "SeqNum": instr.seq_num,
-                    "Stage": self.stage_names[stage.value],
+                    "Stage": self.config.get_stage_name(stage),
                     "OpClass": instr.opclass,
                     "Disasm": instr.disasm
                 }
@@ -173,11 +153,11 @@ class ChromeTracingConverter:
         if issue <= 0 or complete <= 0 or issue >= complete:
             return
 
-        unit = self._opclass_to_unit(instr.opclass)
-        if unit not in self.exec_unit_managers:
+        unit = self.config.get_func_unit(instr.opclass)
+        if unit not in self.func_units_managers:
             return
 
-        pid, tid = self._assign_thread_for_exec_unit(unit, issue, complete)
+        pid, tid = self._assign_thread_for_func_units(unit, issue, complete)
         dur = complete - issue
 
         self.duration_events.append(DurationEvent(
@@ -187,7 +167,7 @@ class ChromeTracingConverter:
             dur=dur,
             pid=pid,
             tid=tid,
-            cname=self._get_cname_for_instruction(instr),
+            cname=self.config.get_color_for_instr(instr),
             args={
                 "PC": instr.pc,
                 "SeqNum": instr.seq_num,

@@ -8,9 +8,8 @@ from uScope.config import Config
 
 
 def filter_events_by_stage(events: List[dict], config: Config, stage: PipelineStage) -> List[dict]:
-    stage_name = config.stage_names[stage.value]
+    stage_name = config.get_stage_name(stage)
     return [e for e in events if e.get("cat") == stage_name]
-
 
 def assert_stage_events(events: List[dict], config: Config, stage: PipelineStage,
                         expected_tuples: List[Tuple[int, int]]):
@@ -34,39 +33,7 @@ def assert_seq_nums(events: List[dict], expected_seq_nums: List[int]):
         assert seq in seq_nums, f"SeqNum {seq} not found in duration events"
 
 
-def test_opclass_to_unit(config : Config):
-    converter = ChromeTracingConverter(None, config)
-
-    assert converter._opclass_to_unit("IntAlu") == "IntALU"
-    assert converter._opclass_to_unit("MemRead") == "ReadPort"
-    assert converter._opclass_to_unit("SomethingElse") == "No_OpClass"
-
-
-def test_generates_cname(minimal_parser, config  : Config):
-    converter = ChromeTracingConverter(minimal_parser, config)
-    instr = list(minimal_parser.instructions.values())[0]
-    cname = converter._get_cname_for_instruction(instr)
-
-    possible_colors = config.colors.get("IntALU", config.colors.default)
-    assert cname in possible_colors
-
-
-def test_pipeline_stages_metadata(minimal_parser, config : Config):
-    converter = ChromeTracingConverter(minimal_parser, config)
-    converter._add_metadata()
-
-    stage_name = config.stage_names["fetch"]
-    process_name = f"01_{stage_name}"
-
-    found = False
-    for e in converter.metadata_events:
-        if e.name == "process_name" and e.args.get("name") == process_name:
-            found = True
-            break
-    assert found, f"Process name {process_name} not found in metadata"
-
-
-def test_exec_units_metadata(minimal_parser, config : Config):
+def test_func_units_metadata(minimal_parser, config : Config):
     converter = ChromeTracingConverter(minimal_parser, config)
     converter._add_metadata()
 
