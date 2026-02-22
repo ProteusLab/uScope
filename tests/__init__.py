@@ -1,1 +1,1 @@
-""" Unit tests for uScope """
+"""Unit tests for uScope"""

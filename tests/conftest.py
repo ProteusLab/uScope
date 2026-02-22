@@ -45,7 +45,7 @@ def minimal_parser() -> PipeViewParser:
 
 
 @pytest.fixture
-def trace_with_in_order(tmp_path : Path) -> Path:
+def trace_with_in_order(tmp_path: Path) -> Path:
     content = """\
 O3PipeView:fetch:1000:0x1000:0:1:add x1, x2, x3:IntAlu
 O3PipeView:decode:1100
@@ -75,7 +75,7 @@ O3PipeView:retire:0:store:0
 
 
 @pytest.fixture
-def trace_with_squashed(tmp_path : Path) -> Path:
+def trace_with_squashed(tmp_path: Path) -> Path:
     content = """\
 O3PipeView:fetch:1000:0x1000:0:1:lw a1, 4(a1):MemRead
 O3PipeView:decode:0
@@ -98,7 +98,7 @@ O3PipeView:retire:0:store:0
 
 
 @pytest.fixture
-def trace_with_missing_stages(tmp_path : Path) -> Path:
+def trace_with_missing_stages(tmp_path: Path) -> Path:
     content = """\
 O3PipeView:fetch:1000:0x1000:0:1:add x1, x2, x3:IntAlu
 O3PipeView:decode:1100
@@ -113,7 +113,7 @@ O3PipeView:retire:1500:store:0
 
 
 @pytest.fixture
-def trace_with_empty_lines(tmp_path : Path) -> Path:
+def trace_with_empty_lines(tmp_path: Path) -> Path:
     content = """\
 O3PipeView:fetch:1000:0x1000:0:1:add x1, x2, x3:IntAlu
 
@@ -139,7 +139,7 @@ O3PipeView:retire:2500:store:0
 
 
 @pytest.fixture
-def trace_with_invalid_lines(tmp_path : Path) -> Path:
+def trace_with_invalid_lines(tmp_path: Path) -> Path:
     content = """\
 This is a garbage line
 O3PipeView:fetch:1000:0x1000:0:1:add x1, x2, x3:IntAlu
@@ -157,7 +157,7 @@ O3PipeView:retire:1500:store:0
 
 
 @pytest.fixture
-def trace_with_ilp(tmp_path : Path) -> Path:
+def trace_with_ilp(tmp_path: Path) -> Path:
     content = """\
 O3PipeView:fetch:1000:0x1000:0:1:add x3, x1, x2:IntAlu
 O3PipeView:decode:1100
@@ -180,7 +180,7 @@ O3PipeView:retire:1500:store:0
 
 
 @pytest.fixture
-def trace_with_pipelined(tmp_path : Path) -> Path:
+def trace_with_pipelined(tmp_path: Path) -> Path:
     content = """\
 O3PipeView:fetch:137000:0x000101b4:0:53:div a7, a4, a5:IntDiv
 O3PipeView:decode:137500
@@ -210,7 +210,7 @@ O3PipeView:retire:204500:store:206500
 
 
 @pytest.fixture
-def trace_with_unordered(tmp_path : Path) -> Path:
+def trace_with_unordered(tmp_path: Path) -> Path:
     content = """\
 O3PipeView:fetch:78500:0x00010148:0:2:ld a0, 548(a0):MemRead
 O3PipeView:decode:79000
