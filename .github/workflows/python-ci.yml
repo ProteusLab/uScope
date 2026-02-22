@@ -42,3 +42,11 @@ jobs:
       run: |
         gunzip -c examples/reference/reference.json.gz > expected.json
         diff -u reference.json expected.json
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v4
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        file: ./coverage.xml
+        flags: unittests
+        name: codecov-umbrella
