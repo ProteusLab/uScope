@@ -1,5 +1,7 @@
 # uScope
 
+[![CI](https://github.com/ProteusLab/uScope/actions/workflows/python-ci.yml/badge.svg)](https://github.com/ProteusLab/uScope/actions/workflows/python-ci.yml)
+[![codecov](https://codecov.io/gh/ProteusLab/uScope/branch/master/graph/badge.svg)](https://codecov.io/gh/ProteusLab/uScope)
 [![Research Project](https://img.shields.io/badge/Research-Project-blue)](https://github.com/ProteusLab/uScope)
 [![gem5](https://img.shields.io/badge/gem5-simulation-green)](https://www.gem5.org)
 [![Computer Architecture](https://img.shields.io/badge/Computer-Architecture-orange)](https://en.wikipedia.org/wiki/Computer_architecture)

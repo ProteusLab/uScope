@@ -57,27 +57,38 @@ def main():
         else:
             output_file = input_file + '.json'
 
-    logging.warning(f"Parsing {input_file}")
-    trace_parser = PipeViewParser()
-    trace_parser.parse_file(input_file)
+    try:
+        if not Path(input_file).exists():
+            raise FileNotFoundError(f"Input file not found: {input_file}")
 
-    if not trace_parser.instructions:
-        logging.error("Error: No instructions with valid timestamps found!")
+        logging.warning(f"Parsing {input_file}")
+        trace_parser = PipeViewParser()
+        trace_parser.parse_file(input_file)
+
+        if not trace_parser.instructions:
+            raise ValueError("No instructions with valid timestamps found")
+
+        logging.warning(f"Loading configuration from {args.config_path if args.config_path else 'default location'}")
+
+        config = load_config(args.config_path)
+
+        converter = ChromeTracingConverter(trace_parser, config, args.exclude_exec, args.exclude_pipeline)
+        events = converter.convert()
+
+        logging.warning(f"Loading {output_file}")
+
+        with open(output_file, 'w', encoding='utf-8') as f:
+            json.dump(events, f, indent=2)
+
+        logging.warning(f"Total events: {len(events)}")
+
+    except ValueError as e:
+        logging.error(f"Value error: {e}")
         sys.exit(1)
 
-    logging.warning(f"Loading configuration from {args.config_path if args.config_path else 'default location'}")
-
-    config = load_config(args.config_path)
-
-    converter = ChromeTracingConverter(trace_parser, config, args.exclude_exec, args.exclude_pipeline)
-    events = converter.convert()
-
-    logging.warning(f"Loading {output_file}")
-
-    with open(output_file, 'w', encoding='utf-8') as f:
-        json.dump(events, f, indent=2)
-
-    logging.warning(f"Total events: {len(events)}")
+    except FileNotFoundError as e:
+        logging.error(f"File error: {e}")
+        sys.exit(2)
 
 if __name__ == "__main__":
     main()
