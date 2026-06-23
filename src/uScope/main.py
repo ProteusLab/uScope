@@ -8,6 +8,7 @@ import gzip
 
 from pathlib import Path
 
+from . import __version__
 from .parser import PipeViewParser
 from .converter import ChromeTracingConverter
 from .config import load_config
@@ -52,8 +53,24 @@ def main():
         action="store_true",
         help="Compress output JSON with gzip"
     )
+    parser.add_argument(
+        "--version", "-V",
+        action="version",
+        version=f"uScope {__version__}",
+        help="Show version and exit"
+    )
+    parser.add_argument(
+        "--verbose", "-v",
+        default=False,
+        action="store_true",
+        help="Enable verbose (DEBUG level) output"
+    )
+
 
     args = parser.parse_args()
+
+    if args.verbose:
+        logging.getLogger().setLevel(logging.DEBUG)
 
     input_file = args.input_file
 
@@ -72,26 +89,26 @@ def main():
         if not Path(input_file).exists():
             raise FileNotFoundError(f"Input file not found: {input_file}")
 
-        logging.warning(f"Parsing {input_file}")
+        logger.info(f"Parsing {input_file}")
         trace_parser = PipeViewParser()
         trace_parser.parse_file(input_file)
 
         if not trace_parser.instructions:
             raise ValueError("No instructions with valid timestamps found")
 
-        logging.warning(f"Loading configuration from {args.config_path if args.config_path else 'default location'}")
+        logger.info(f"Loading configuration from {args.config_path if args.config_path else 'default location'}")
 
         config = load_config(args.config_path)
 
         converter = ChromeTracingConverter(trace_parser, config, args.exclude_exec, args.exclude_pipeline)
         events = converter.convert()
 
-        logging.warning(f"Loading {output_file}")
+        logger.info(f"Writing {output_file}")
 
         with (gzip.open if args.gzip else open)(output_file, 'wt', encoding='utf-8') as f:
             json.dump(events, f, indent=2)
 
-        logging.warning(f"Total events: {len(events)}")
+        logger.info(f"Total events: {len(events)}")
 
     except ValueError as e:
         logging.error(f"Value error: {e}")
