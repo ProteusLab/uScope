@@ -71,6 +71,24 @@ def main():
         action="store_true",
         help="Suppress progress bar and reduce log output"
     )
+    parser.add_argument(
+        "--only-committed",
+        default=False,
+        action="store_true",
+        help="Exclude squashed (incomplete) instructions from output"
+    )
+    parser.add_argument(
+        "--store-completions",
+        default=True,
+        action="store_true",
+        help="Include store completion tick events (enabled by default)"
+    )
+    parser.add_argument(
+        "--no-store-completions",
+        dest="store_completions",
+        action="store_false",
+        help="Disable store completion tick events"
+    )
 
 
     args = parser.parse_args()
@@ -108,7 +126,7 @@ def main():
 
         config = load_config(args.config_path)
 
-        converter = ChromeTracingConverter(trace_parser, config, args.exclude_exec, args.exclude_pipeline)
+        converter = ChromeTracingConverter(trace_parser, config, args.exclude_exec, args.exclude_pipeline, args.only_committed, args.store_completions)
         events = converter.convert(progress=not args.quiet)
 
         logger.info(f"Writing {output_file}")

@@ -10,6 +10,7 @@ class PipelineStage(Enum):
     ISSUE = "issue"
     COMPLETE = "complete"
     RETIRE = "retire"
+    STORE_COMPLETE = "store_complete"
 
     @staticmethod
     def order():
@@ -34,12 +35,17 @@ class Instruction:
     opclass: str
     stages: Dict[PipelineStage, int]
     stage_order: List[PipelineStage]
+    store_tick: int = 0
 
     @property
     def mnemonic(self):
         if not self.disasm:
             return Instruction.UNKNOWN
         return self.disasm.split()[0].upper()
+
+    @property
+    def is_squashed(self) -> bool:
+        return self.stages.get(PipelineStage.RETIRE, 0) == 0
 
 # NOTE: https://github.com/gem5/gem5/blob/stable/src/cpu/FuncUnit.py
 class OpClass(Enum):

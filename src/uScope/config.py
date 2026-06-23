@@ -24,6 +24,14 @@ class IConfig(ABC):
         assert False, f"Color mapping method wasn't defined in {type(self).__name__}"
 
     @abstractmethod
+    def get_squashed_cname(self) -> str:
+        assert False, f"Squashed color method wasn't defined in {type(self).__name__}"
+
+    @abstractmethod
+    def store_completions_pid(self) -> int:
+        assert False, f"Store Completions Process ID wasn't defined in {type(self).__name__}"
+
+    @abstractmethod
     def pipeline_pid(self) -> int:
         assert False, f"Pipeline Process ID wasn't defined in {type(self).__name__}"
 
@@ -75,6 +83,10 @@ class Config(IConfig):
     def func_units_width(self) -> int:
         return self.settings._MAX_FUNC_UNITS_WIDTH
 
+    @property
+    def store_completions_pid(self) -> int:
+        return self.settings._PID_STORE_COMPLETIONS_BASE
+
     def get_func_unit(self, opclass: Any) -> str:
         return self._func_units.get(str(opclass), "No_OpClass")
 
@@ -89,6 +101,9 @@ class Config(IConfig):
         family = self._colors.get(unit, self._colors._default)
         idx = stable_hash(instr.mnemonic, len(family))
         return family[idx]
+
+    def get_squashed_cname(self) -> str:
+        return self._colors._squashed[0]
 
     def __getitem__(self, key: str) -> Any:
         return self._data[key]

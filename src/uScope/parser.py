@@ -64,9 +64,15 @@ class PipeViewParser:
         idx = rest.find(":")
         if idx == -1:
             tick = int(rest)
+            store_tick = 0
         else:
             tick = int(rest[:idx])
-        return stage_name, tick
+            remaining = rest[idx + 1 :]
+            if remaining.startswith("store:"):
+                store_tick = int(remaining[6:])
+            else:
+                store_tick = 0
+        return stage_name, tick, store_tick
 
     def parse_line(self, line: str):
         if not line.startswith(self.PREFIX):
@@ -98,7 +104,7 @@ class PipeViewParser:
             return
 
         if self.current_instr is not None:
-            stage_name, tick = self._parse_stage_line(rest)
+            stage_name, tick, store_tick = self._parse_stage_line(rest)
             stage_name = stage_name.lower()
 
             if stage_name in self.stage_map:
@@ -107,3 +113,6 @@ class PipeViewParser:
 
                 if stage not in self.current_instr.stage_order:
                     self.current_instr.stage_order.append(stage)
+
+            if stage_name == "retire" and store_tick > 0:
+                self.current_instr.store_tick = store_tick
