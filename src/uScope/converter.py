@@ -1,4 +1,6 @@
-from typing import Dict, List, Tuple, Any
+from typing import Dict, List, Tuple
+
+from tqdm import tqdm
 
 from .O3 import PipelineStage, Instruction
 from .events import MetadataEvent, DurationEvent
@@ -22,9 +24,10 @@ class ChromeTracingConverter:
         self.stage_managers: Dict[PipelineStage, ThreadPoolManager] = {}
         self.func_units_managers: Dict[str, ThreadPoolManager] = {}
 
-    def convert(self) -> List[dict]:
+    def convert(self, progress: bool = True) -> List[dict]:
         self._add_metadata()
-        for instr in self.instructions_by_seq_num():
+        instructions = self.instructions_by_seq_num()
+        for instr in tqdm(instructions, desc="Converting", unit="instr", disable=not progress, leave=False):
             if not self.exclude_pipeline:
                 self._add_pipeline_stage_events(instr)
             if not self.exclude_exec:

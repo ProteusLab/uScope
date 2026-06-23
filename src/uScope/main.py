@@ -65,12 +65,20 @@ def main():
         action="store_true",
         help="Enable verbose (DEBUG level) output"
     )
+    parser.add_argument(
+        "--quiet", "-q",
+        default=False,
+        action="store_true",
+        help="Suppress progress bar and reduce log output"
+    )
 
 
     args = parser.parse_args()
 
     if args.verbose:
         logging.getLogger().setLevel(logging.DEBUG)
+    elif args.quiet:
+        logging.getLogger().setLevel(logging.WARNING)
 
     input_file = args.input_file
 
@@ -91,7 +99,7 @@ def main():
 
         logger.info(f"Parsing {input_file}")
         trace_parser = PipeViewParser()
-        trace_parser.parse_file(input_file)
+        trace_parser.parse_file(input_file, progress=not args.quiet)
 
         if not trace_parser.instructions:
             raise ValueError("No instructions with valid timestamps found")
@@ -101,7 +109,7 @@ def main():
         config = load_config(args.config_path)
 
         converter = ChromeTracingConverter(trace_parser, config, args.exclude_exec, args.exclude_pipeline)
-        events = converter.convert()
+        events = converter.convert(progress=not args.quiet)
 
         logger.info(f"Writing {output_file}")
 
