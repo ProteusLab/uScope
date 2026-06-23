@@ -1,14 +1,7 @@
-import re
-
 from .O3 import Instruction, PipelineStage
 
 class PipeViewParser:
-    FETCH_PATTERN = re.compile(
-        r'O3PipeView:fetch:(\d+):(0x[0-9a-f]+):\d+:(\d+):([^:]+):(.+)$'
-    )
-    STAGE_PATTERN = re.compile(
-        r'O3PipeView:(\w+):(\d+)(?::.*)?$'
-    )
+    PREFIX = "O3PipeView:"
 
     def __init__(self):
         self.instructions = {}
@@ -31,17 +24,40 @@ class PipeViewParser:
             if sum(1 for tick in instr.stages.values() if tick > 0) > 0
         }
 
+    @staticmethod
+    def _parse_fetch_line(rest: str):
+        parts = rest.split(':', 5)
+        if len(parts) != 6:
+            return None
+        tick_str, pc, _, seq_str, disasm, opclass = parts
+        return int(tick_str), pc, int(seq_str), disasm.strip(), opclass.strip()
+
+    @staticmethod
+    def _parse_stage_line(rest: str):
+        idx = rest.index(':')
+        stage_name = rest[:idx]
+        rest = rest[idx + 1:]
+        idx = rest.find(':')
+        if idx == -1:
+            tick = int(rest)
+        else:
+            tick = int(rest[:idx])
+        return stage_name, tick
+
     def parse_line(self, line: str):
-        fetch_match = self.FETCH_PATTERN.match(line)
-        if fetch_match:
+        if not line.startswith(self.PREFIX):
+            return
+
+        rest = line[len(self.PREFIX):]
+
+        if rest.startswith("fetch:"):
+            result = self._parse_fetch_line(rest[6:])
+            if result is None:
+                return
+            tick, pc, seq_num, disasm, opclass = result
+
             if self.current_instr is not None:
                 self.instructions[self.current_seq_num] = self.current_instr
-
-            tick = int(fetch_match.group(1))
-            pc = fetch_match.group(2)
-            seq_num = int(fetch_match.group(3))
-            disasm = fetch_match.group(4).strip()
-            opclass = fetch_match.group(5).strip()
 
             self.current_seq_num = seq_num
             self.current_instr = Instruction(
@@ -57,10 +73,9 @@ class PipeViewParser:
             self.current_instr.stage_order.append(PipelineStage.FETCH)
             return
 
-        stage_match = self.STAGE_PATTERN.match(line)
-        if stage_match and self.current_instr is not None:
-            stage_name = stage_match.group(1).lower()
-            tick = int(stage_match.group(2))
+        if self.current_instr is not None:
+            stage_name, tick = self._parse_stage_line(rest)
+            stage_name = stage_name.lower()
 
             if stage_name in self.stage_map:
                 stage = self.stage_map[stage_name]
