@@ -387,3 +387,47 @@ def test_parse_unordered(trace_with_unordered):
         ),
     }
     assert_instructions(parser, expected, all_stages)
+
+
+def test_parse_malformed_fetch(trace_with_malformed_fetch):
+    parser = PipeViewParser()
+    parser.parse_file(str(trace_with_malformed_fetch))
+
+    all_stages = PipelineStage.order()
+    expected = {
+        2: (
+            "0x2000",
+            "lw a0, 0(a1)",
+            "MemRead",
+            {
+                PipelineStage.FETCH: 2000,
+                PipelineStage.DECODE: 2100,
+                PipelineStage.RENAME: 0,
+                PipelineStage.DISPATCH: 0,
+                PipelineStage.ISSUE: 0,
+                PipelineStage.COMPLETE: 0,
+                PipelineStage.RETIRE: 2500,
+            },
+        ),
+    }
+    assert len(parser.instructions) == len(expected)
+    assert parser.instructions[2].disasm == "lw a0, 0(a1)"
+
+
+def test_empty_disasm_mnemonic():
+    from uScope.O3 import Instruction
+
+    instr = Instruction(
+        seq_num=1, pc="0x0", disasm="", opclass="No_OpClass",
+        stages={}, stage_order=[]
+    )
+    assert instr.mnemonic == Instruction.UNKNOWN
+
+
+def test_store_completion_parsed(trace_with_store_completion):
+    parser = PipeViewParser()
+    parser.parse_file(str(trace_with_store_completion))
+
+    instr = parser.instructions[1]
+    assert instr.store_tick == 2000
+    assert instr.stages[PipelineStage.RETIRE] == 1500
