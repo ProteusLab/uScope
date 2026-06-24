@@ -103,7 +103,7 @@ class Config(IConfig):
         return family[idx]
 
     def get_squashed_cname(self) -> str:
-        return self._colors._squashed[0]
+        return self._colors._squashed
 
     def __getitem__(self, key: str) -> Any:
         return self._data[key]

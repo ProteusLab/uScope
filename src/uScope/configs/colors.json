@@ -81,7 +81,5 @@
         "rail_idle",
         "yellow"
     ],
-    "squashed": [
-        "grey"
-    ]
+    "squashed": "grey"
 }
