@@ -28,7 +28,7 @@ Verify, optimize, and explore cycle-approximate simulation with uScope!
 
 ```bash
 pip install --upgrade pip setuptools wheel
-git git@github.com:ProteusLab/uScope.git
+git clone git@github.com:ProteusLab/uScope.git
 cd uScope
 pip install -e .
 ```

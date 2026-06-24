@@ -80,5 +80,6 @@
         "good",
         "rail_idle",
         "yellow"
-    ]
+    ],
+    "squashed": "grey"
 }
