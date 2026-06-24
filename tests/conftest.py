@@ -244,3 +244,134 @@ O3PipeView:retire:141000:store:0
     trace_file = tmp_path.joinpath("trace_with_unordered.out")
     trace_file.write_text(content)
     return trace_file
+
+
+@pytest.fixture
+def trace_with_malformed_fetch(tmp_path: Path) -> Path:
+    content = """\
+O3PipeView:fetch:1000:0x1000:0:add x1, x2, x3:IntAlu
+O3PipeView:decode:1100
+O3PipeView:fetch:2000:0x2000:0:2:lw a0, 0(a1):MemRead
+O3PipeView:decode:2100
+O3PipeView:retire:2500:store:0
+"""
+    trace_file = tmp_path.joinpath("trace_malformed.out")
+    trace_file.write_text(content)
+    return trace_file
+
+
+@pytest.fixture
+def trace_with_store_completion(tmp_path: Path) -> Path:
+    content = """\
+O3PipeView:fetch:1000:0x1000:0:1:sw a0, 0(a1):MemWrite
+O3PipeView:decode:1100
+O3PipeView:rename:1150
+O3PipeView:dispatch:1200
+O3PipeView:issue:1300
+O3PipeView:complete:1400
+O3PipeView:retire:1500:store:2000
+"""
+    trace_file = tmp_path.joinpath("trace_store.out")
+    trace_file.write_text(content)
+    return trace_file
+
+
+@pytest.fixture
+def trace_with_invalid_issue(tmp_path: Path) -> Path:
+    content = """\
+O3PipeView:fetch:1000:0x1000:0:1:add x1, x2, x3:IntAlu
+O3PipeView:decode:1100
+O3PipeView:rename:1150
+O3PipeView:dispatch:1200
+O3PipeView:issue:0
+O3PipeView:complete:1400
+O3PipeView:retire:1500:store:0
+"""
+    trace_file = tmp_path.joinpath("trace_invalid_issue.out")
+    trace_file.write_text(content)
+    return trace_file
+
+
+@pytest.fixture
+def trace_with_empty_disasm(tmp_path: Path) -> Path:
+    content = """\
+O3PipeView:fetch:1000:0x1000:0:1::No_OpClass
+O3PipeView:decode:1100
+O3PipeView:rename:1150
+O3PipeView:dispatch:1200
+O3PipeView:issue:1300
+O3PipeView:complete:1400
+O3PipeView:retire:1500:store:0
+"""
+    trace_file = tmp_path.joinpath("trace_empty_disasm.out")
+    trace_file.write_text(content)
+    return trace_file
+
+
+@pytest.fixture
+def trace_empty(tmp_path: Path) -> Path:
+    trace_file = tmp_path.joinpath("trace_empty.out")
+    trace_file.write_text("")
+    return trace_file
+
+
+@pytest.fixture
+def squashed_parser() -> PipeViewParser:
+    parser = PipeViewParser()
+    instr = Instruction(
+        seq_num=2,
+        pc="0x2000",
+        disasm="lw a0, 0(a1)",
+        opclass="MemRead",
+        stages={
+            PipelineStage.FETCH: 1000,
+            PipelineStage.DECODE: 1100,
+            PipelineStage.RENAME: 0,
+            PipelineStage.DISPATCH: 0,
+            PipelineStage.ISSUE: 0,
+            PipelineStage.COMPLETE: 0,
+            PipelineStage.RETIRE: 0,
+        },
+        stage_order=[
+            PipelineStage.FETCH,
+            PipelineStage.DECODE,
+            PipelineStage.RENAME,
+            PipelineStage.DISPATCH,
+            PipelineStage.ISSUE,
+            PipelineStage.COMPLETE,
+            PipelineStage.RETIRE,
+        ],
+    )
+    parser.instructions = {2: instr}
+    return parser
+
+
+@pytest.fixture
+def parser_with_unknown_opclass() -> PipeViewParser:
+    parser = PipeViewParser()
+    instr = Instruction(
+        seq_num=3,
+        pc="0x3000",
+        disasm="fence",
+        opclass="SomeUnknownOpClass",
+        stages={
+            PipelineStage.FETCH: 1000,
+            PipelineStage.DECODE: 1100,
+            PipelineStage.RENAME: 1150,
+            PipelineStage.DISPATCH: 1200,
+            PipelineStage.ISSUE: 1300,
+            PipelineStage.COMPLETE: 1400,
+            PipelineStage.RETIRE: 1500,
+        },
+        stage_order=[
+            PipelineStage.FETCH,
+            PipelineStage.DECODE,
+            PipelineStage.RENAME,
+            PipelineStage.DISPATCH,
+            PipelineStage.ISSUE,
+            PipelineStage.COMPLETE,
+            PipelineStage.RETIRE,
+        ],
+    )
+    parser.instructions = {3: instr}
+    return parser

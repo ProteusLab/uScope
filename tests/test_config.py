@@ -35,3 +35,19 @@ def test_config_load_from_nonexist_dir(tmp_path: Path):
     nonexist = tmp_path.joinpath("nonexist")
     config = load_config(nonexist)
     assert config.get_stage_name(PipelineStage.FETCH) is not None
+
+
+def test_config_getattr_missing_key(config: Config):
+    with pytest.raises(AttributeError):
+        _ = config._no_such_key
+
+
+def test_config_path_not_directory(tmp_path: Path, caplog):
+    config_file = tmp_path.joinpath("colors.json")
+    config_file.write_text(json.dumps({"default": ["test"]}))
+
+    import logging
+    caplog.set_level(logging.WARNING)
+    config = load_config(config_file)
+    assert config.get_stage_name(PipelineStage.FETCH) is not None
+    assert "not a directory" in caplog.text
