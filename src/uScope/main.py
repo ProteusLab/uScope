@@ -22,6 +22,7 @@ def main():
     )
     parser.add_argument(
         "--input-file", '-i',
+        required=True,
         help="Path to the input trace file (e.g., trace.out)"
     )
     parser.add_argument(
@@ -103,10 +104,7 @@ def main():
     if args.output_file:
         output_file = args.output_file
     else:
-        if input_file.endswith('.out'):
-            output_file = input_file[:-4] + '.json'
-        else:
-            output_file = input_file + '.json'
+        output_file = str(Path(input_file).with_suffix('.json'))
 
     if args.gzip and not output_file.endswith('.gz'):
         output_file += '.gz'
