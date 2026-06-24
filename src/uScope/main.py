@@ -3,8 +3,10 @@
 import argparse
 import sys
 import json
-from pathlib import Path
 import logging
+import gzip
+
+from pathlib import Path
 
 from .parser import PipeViewParser
 from .converter import ChromeTracingConverter
@@ -41,8 +43,14 @@ def main():
     parser.add_argument(
         "--exclude-exec",
         default=False,
-        help="Exclude FuncUnits events in the converter",
+        help="Exclude Functional Units events in the converter",
         action='store_true',
+    )
+    parser.add_argument(
+        "--gzip", "-z",
+        default=False,
+        action="store_true",
+        help="Compress output JSON with gzip"
     )
 
     args = parser.parse_args()
@@ -56,6 +64,9 @@ def main():
             output_file = input_file[:-4] + '.json'
         else:
             output_file = input_file + '.json'
+
+    if args.gzip and not output_file.endswith('.gz'):
+        output_file += '.gz'
 
     try:
         if not Path(input_file).exists():
@@ -77,7 +88,7 @@ def main():
 
         logging.warning(f"Loading {output_file}")
 
-        with open(output_file, 'w', encoding='utf-8') as f:
+        with (gzip.open if args.gzip else open)(output_file, 'wt', encoding='utf-8') as f:
             json.dump(events, f, indent=2)
 
         logging.warning(f"Total events: {len(events)}")
