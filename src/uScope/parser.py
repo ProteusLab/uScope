@@ -92,5 +92,5 @@ class PipeViewParser:
                 if stage not in self.current_instr.stage_order:
                     self.current_instr.stage_order.append(stage)
 
-            if stage_name == "retire" and store_tick > 0:
+            if stage_name == PipelineStage.RETIRE.value and store_tick > 0:
                 self.current_instr.store_tick = store_tick
