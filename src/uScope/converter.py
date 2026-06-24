@@ -4,7 +4,7 @@ from tqdm import tqdm
 
 from .O3 import PipelineStage, Instruction
 from .events import MetadataEvent, DurationEvent
-from .thread_pool import ThreadPoolManager
+from .thread_pool import StageLaneManager
 from .config import IConfig
 from .parser import PipeViewParser
 
@@ -35,9 +35,9 @@ class ChromeTracingConverter:
         self.metadata_events: List[MetadataEvent] = []
         self.duration_events: List[DurationEvent] = []
 
-        self.stage_managers: Dict[PipelineStage, ThreadPoolManager] = {}
-        self.func_units_managers: Dict[str, ThreadPoolManager] = {}
-        self.store_thread_pool: ThreadPoolManager = None
+        self.stage_managers: Dict[PipelineStage, StageLaneManager] = {}
+        self.func_units_managers: Dict[str, StageLaneManager] = {}
+        self.store_lane_manager: StageLaneManager = None
 
     def convert(self, progress: bool = True) -> List[dict]:
         self._add_metadata()
@@ -77,29 +77,18 @@ class ChromeTracingConverter:
             process_name = f"{(id + 1):02d}_{stage_name}"
             pid = self.config.pipeline_pid + id
 
-            manager = ThreadPoolManager(
+            manager = StageLaneManager(
                 max_width=self.config.pipeline_width,
                 pid=pid,
-                thread_name_prefix=stage_name,
+                lane_name_prefix=stage_name,
                 metadata_events=self.metadata_events
             )
 
             self.stage_managers[stage] = manager
-            manager.add_initial_thread(0)
 
             self.metadata_events.append(MetadataEvent(
                 name="process_name", pid=pid,
                 args={"name": process_name}
-            ))
-
-            self.metadata_events.append(MetadataEvent(
-                name="thread_name", pid=pid, tid=0,
-                args={"name": f"00_{stage_name}"}
-            ))
-
-            self.metadata_events.append(MetadataEvent(
-                name="thread_sort_index", pid=pid, tid=0,
-                args={"sort_index": 0}
             ))
 
     def _add_execution_units_metadata(self):
@@ -111,35 +100,24 @@ class ChromeTracingConverter:
         for i, unit_name in enumerate(sorted(unit_names)):
             pid = self.config.func_units_pid + i
 
-            manager = ThreadPoolManager(
+            manager = StageLaneManager(
                 max_width=self.config.func_units_width,
                 pid=pid,
-                thread_name_prefix=unit_name,
+                lane_name_prefix=unit_name,
                 metadata_events=self.metadata_events
             )
             self.func_units_managers[unit_name] = manager
-            manager.add_initial_thread(0)
 
             self.metadata_events.append(MetadataEvent(
                 name="process_name", pid=pid,
                 args={"name": f"{unit_name}"}
             ))
 
-            self.metadata_events.append(MetadataEvent(
-                name="thread_name", pid=pid, tid=0,
-                args={"name": f"00_{unit_name}"}
-            ))
+    def _assign_lane_for_stage(self, stage: PipelineStage, start_time: int, end_time: int) -> Tuple[int, int]:
+        return self.stage_managers[stage].assign_lane(start_time, end_time)
 
-            self.metadata_events.append(MetadataEvent(
-                name="thread_sort_index", pid=pid, tid=0,
-                args={"sort_index": 0}
-            ))
-
-    def _assign_thread_for_stage(self, stage: PipelineStage, start_time: int, end_time: int) -> Tuple[int, int]:
-        return self.stage_managers[stage].assign_thread(start_time, end_time)
-
-    def _assign_thread_for_func_units(self, unit_name: str, start_time: int, end_time: int) -> Tuple[int, int]:
-        return self.func_units_managers[unit_name].assign_thread(start_time, end_time)
+    def _assign_lane_for_func_units(self, unit_name: str, start_time: int, end_time: int) -> Tuple[int, int]:
+        return self.func_units_managers[unit_name].assign_lane(start_time, end_time)
 
     def _add_pipeline_stage_events(self, instr : Instruction):
         mnemonic = instr.mnemonic
@@ -153,7 +131,7 @@ class ChromeTracingConverter:
         for i, (stage, tick) in enumerate(active):
             dur = max(1, active[i + 1][1] - tick) if i < len(active) - 1 else 1
             start, end = tick, tick + dur
-            pid, tid = self._assign_thread_for_stage(stage, start, end)
+            pid, tid = self._assign_lane_for_stage(stage, start, end)
 
             self.duration_events.append(DurationEvent(
                 name=mnemonic,
@@ -187,7 +165,7 @@ class ChromeTracingConverter:
         if unit not in self.func_units_managers:
             return
 
-        pid, tid = self._assign_thread_for_func_units(unit, issue, complete)
+        pid, tid = self._assign_lane_for_func_units(unit, issue, complete)
         dur = complete - issue
         cname = self.config.get_squashed_cname() if instr.is_squashed else self.config.get_color_for_instr(instr)
 
@@ -213,36 +191,19 @@ class ChromeTracingConverter:
         store_name = self.config.get_stage_name(PipelineStage.STORE_COMPLETE)
         pid = self.config.store_completions_pid
 
-        manager = ThreadPoolManager(
+        manager = StageLaneManager(
             max_width=self.config.pipeline_width,
             pid=pid,
-            thread_name_prefix=store_name,
+            lane_name_prefix=store_name,
             metadata_events=self.metadata_events,
         )
-        self.store_thread_pool = manager
-        manager.add_initial_thread(0)
+        self.store_lane_manager = manager
 
         self.metadata_events.append(
             MetadataEvent(
                 name="process_name",
                 pid=pid,
                 args={"name": store_name},
-            )
-        )
-        self.metadata_events.append(
-            MetadataEvent(
-                name="thread_name",
-                pid=pid,
-                tid=0,
-                args={"name": f"00_{store_name}"},
-            )
-        )
-        self.metadata_events.append(
-            MetadataEvent(
-                name="thread_sort_index",
-                pid=pid,
-                tid=0,
-                args={"sort_index": 0},
             )
         )
 
@@ -257,8 +218,8 @@ class ChromeTracingConverter:
 
         pid = self.config.store_completions_pid
         tid = 0
-        if self.store_thread_pool is not None:
-            _, tid = self.store_thread_pool.assign_thread(retire_tick, store_tick)
+        if self.store_lane_manager is not None:
+            _, tid = self.store_lane_manager.assign_lane(retire_tick, store_tick)
 
         dur = store_tick - retire_tick
         cname = self.config.get_squashed_cname() if instr.is_squashed else self.config.get_color_for_instr(instr)
