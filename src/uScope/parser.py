@@ -1,14 +1,4 @@
-from tqdm import tqdm
-
 from .O3 import Instruction, PipelineStage
-
-
-def _count_lines(filename: str) -> int:
-    count = 0
-    with open(filename, "rb") as f:
-        for _ in f:
-            count += 1
-    return count
 
 
 class PipeViewParser:
@@ -20,24 +10,12 @@ class PipeViewParser:
         self.current_instr = None
         self.stage_map = {f"{stage}": stage for stage in PipelineStage.order()}
 
-    def parse_file(self, filename: str, progress: bool = True):
-        total = _count_lines(filename)
-        pbar = tqdm(
-            total=total,
-            desc="Parsing trace",
-            unit="lines",
-            disable=not progress,
-            leave=False,
-        )
-
+    def parse_file(self, filename: str):
         with open(filename, "r") as f:
             for line in f:
-                pbar.update(1)
                 line = line.strip()
                 if line:
                     self.parse_line(line)
-
-        pbar.close()
 
         if self.current_instr is not None:
             self.instructions[self.current_seq_num] = self.current_instr
@@ -45,7 +23,7 @@ class PipeViewParser:
         self.instructions = {
             seq: instr
             for seq, instr in self.instructions.items()
-            if sum(1 for tick in instr.stages.values() if tick > 0) > 0
+            if any(tick > 0 for tick in instr.stages.values())
         }
 
     @staticmethod

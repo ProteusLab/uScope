@@ -81,15 +81,14 @@ class ChromeTracingConverter:
                 max_width=self.config.pipeline_width,
                 pid=pid,
                 lane_name_prefix=stage_name,
-                metadata_events=self.metadata_events
+                metadata_events=self.metadata_events,
             )
 
             self.stage_managers[stage] = manager
 
-            self.metadata_events.append(MetadataEvent(
-                name="process_name", pid=pid,
-                args={"name": process_name}
-            ))
+            self.metadata_events.append(
+                MetadataEvent(name="process_name", pid=pid, args={"name": process_name})
+            )
 
     def _add_execution_units_metadata(self):
         unit_names = set()
@@ -104,26 +103,39 @@ class ChromeTracingConverter:
                 max_width=self.config.func_units_width,
                 pid=pid,
                 lane_name_prefix=unit_name,
-                metadata_events=self.metadata_events
+                metadata_events=self.metadata_events,
             )
             self.func_units_managers[unit_name] = manager
 
-            self.metadata_events.append(MetadataEvent(
-                name="process_name", pid=pid,
-                args={"name": f"{unit_name}"}
-            ))
+            self.metadata_events.append(
+                MetadataEvent(
+                    name="process_name", pid=pid, args={"name": f"{unit_name}"}
+                )
+            )
 
-    def _assign_lane_for_stage(self, stage: PipelineStage, start_time: int, end_time: int) -> Tuple[int, int]:
+    def _assign_lane_for_stage(
+        self, stage: PipelineStage, start_time: int, end_time: int
+    ) -> Tuple[int, int]:
         return self.stage_managers[stage].assign_lane(start_time, end_time)
 
-    def _assign_lane_for_func_units(self, unit_name: str, start_time: int, end_time: int) -> Tuple[int, int]:
+    def _assign_lane_for_func_units(
+        self, unit_name: str, start_time: int, end_time: int
+    ) -> Tuple[int, int]:
         return self.func_units_managers[unit_name].assign_lane(start_time, end_time)
 
-    def _add_pipeline_stage_events(self, instr : Instruction):
+    def _add_pipeline_stage_events(self, instr: Instruction):
         mnemonic = instr.mnemonic
-        cname = self.config.get_squashed_cname() if instr.is_squashed else self.config.get_color_for_instr(instr)
+        cname = (
+            self.config.get_squashed_cname()
+            if instr.is_squashed
+            else self.config.get_color_for_instr(instr)
+        )
 
-        active = [(st, instr.stages[st]) for st in instr.stage_order if instr.stages.get(st, 0) > 0]
+        active = [
+            (st, instr.stages[st])
+            for st in instr.stage_order
+            if instr.stages.get(st, 0) > 0
+        ]
         if not active:
             return
         active.sort(key=lambda x: x[1])
@@ -133,24 +145,26 @@ class ChromeTracingConverter:
             start, end = tick, tick + dur
             pid, tid = self._assign_lane_for_stage(stage, start, end)
 
-            self.duration_events.append(DurationEvent(
-                name=mnemonic,
-                cat=self.config.get_stage_name(stage),
-                ts=tick,
-                dur=dur,
-                pid=pid,
-                tid=tid,
-                cname=cname,
-                args={
-                    "PC": instr.pc,
-                    "SeqNum": instr.seq_num,
-                    "Stage": self.config.get_stage_name(stage),
-                    "OpClass": instr.opclass,
-                    "Disasm": instr.disasm
-                }
-            ))
+            self.duration_events.append(
+                DurationEvent(
+                    name=mnemonic,
+                    cat=self.config.get_stage_name(stage),
+                    ts=tick,
+                    dur=dur,
+                    pid=pid,
+                    tid=tid,
+                    cname=cname,
+                    args={
+                        "PC": instr.pc,
+                        "SeqNum": instr.seq_num,
+                        "Stage": self.config.get_stage_name(stage),
+                        "OpClass": instr.opclass,
+                        "Disasm": instr.disasm,
+                    },
+                )
+            )
 
-    def _add_execution_unit_events(self, instr : Instruction):
+    def _add_execution_unit_events(self, instr: Instruction):
         if not instr.opclass:
             return
 
@@ -167,25 +181,31 @@ class ChromeTracingConverter:
 
         pid, tid = self._assign_lane_for_func_units(unit, issue, complete)
         dur = complete - issue
-        cname = self.config.get_squashed_cname() if instr.is_squashed else self.config.get_color_for_instr(instr)
+        cname = (
+            self.config.get_squashed_cname()
+            if instr.is_squashed
+            else self.config.get_color_for_instr(instr)
+        )
 
-        self.duration_events.append(DurationEvent(
-            name=mnemonic,
-            cat=unit,
-            ts=issue,
-            dur=dur,
-            pid=pid,
-            tid=tid,
-            cname=cname,
-            args={
-                "PC": instr.pc,
-                "SeqNum": instr.seq_num,
-                "OpClass": instr.opclass,
-                "Unit": unit,
-                "Duration": dur,
-                "Disasm": instr.disasm
-            }
-        ))
+        self.duration_events.append(
+            DurationEvent(
+                name=mnemonic,
+                cat=unit,
+                ts=issue,
+                dur=dur,
+                pid=pid,
+                tid=tid,
+                cname=cname,
+                args={
+                    "PC": instr.pc,
+                    "SeqNum": instr.seq_num,
+                    "OpClass": instr.opclass,
+                    "Unit": unit,
+                    "Duration": dur,
+                    "Disasm": instr.disasm,
+                },
+            )
+        )
 
     def _add_store_completions_metadata(self):
         store_name = self.config.get_stage_name(PipelineStage.STORE_COMPLETE)
@@ -222,7 +242,11 @@ class ChromeTracingConverter:
             _, tid = self.store_lane_manager.assign_lane(retire_tick, store_tick)
 
         dur = store_tick - retire_tick
-        cname = self.config.get_squashed_cname() if instr.is_squashed else self.config.get_color_for_instr(instr)
+        cname = (
+            self.config.get_squashed_cname()
+            if instr.is_squashed
+            else self.config.get_color_for_instr(instr)
+        )
 
         self.duration_events.append(
             DurationEvent(

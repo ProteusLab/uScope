@@ -117,7 +117,7 @@ def main():
 
         logger.info(f"Parsing {input_file}")
         trace_parser = PipeViewParser()
-        trace_parser.parse_file(input_file, progress=not args.quiet)
+        trace_parser.parse_file(input_file)
 
         if not trace_parser.instructions:
             raise ValueError("No instructions with valid timestamps found")
