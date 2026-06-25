@@ -20,15 +20,17 @@ O3PipeView:retire:1500:store:0
 """
 
     input_file.write_text(content)
-    output_file = tmp_path.joinpath("output.json")
+    output_dir = tmp_path.joinpath("output")
+    output_dir.mkdir()
 
     monkeypatch.setattr(
         sys,
         "argv",
-        ["uscope", "--input-file", str(input_file), "--output-file", str(output_file)],
+        ["uscope", "--input-file", str(input_file), "--output-dir", str(output_dir)],
     )
     main()
 
+    output_file = output_dir.joinpath("trace_0.json")
     assert output_file.exists()
     data = json.loads(output_file.read_text())
     assert isinstance(data, list)
