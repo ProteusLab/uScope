@@ -8,8 +8,7 @@
     "IntMultDiv": [
         "rail_animation",
         "cq_build_attempt_failed",
-        "terrible",
-        "head_dump_child_node_arrow"
+        "terrible"
     ],
     "FP_ALU": [
         "good",
@@ -38,7 +37,6 @@
     "Matrix_Unit": [
         "bad",
         "terrible",
-        "head_dump_child_node_arrow",
         "thread_state_uninterruptible"
     ],
     "System_Unit": [
