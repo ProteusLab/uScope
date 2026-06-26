@@ -41,7 +41,7 @@ jobs:
     - name: Compare output with reference
       run: |
         gunzip -c examples/reference/reference_0.json.gz > expected.json
-        diff -u reference_0.json expected.json
+        diff -u res/reference_0.json expected.json
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v4
