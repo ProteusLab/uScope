@@ -244,3 +244,78 @@ O3PipeView:retire:141000:store:0
     trace_file = tmp_path.joinpath("trace_with_unordered.out")
     trace_file.write_text(content)
     return trace_file
+
+
+@pytest.fixture
+def trace_with_deps(tmp_path: Path) -> Path:
+    content = """\
+O3PipeView:deps:0:4:2,3
+O3PipeView:deps:0:3:1
+O3PipeView:deps:0:2:1
+O3PipeView:deps:0:1:
+O3PipeView:fetch:1000:0x1000:0:1:add x4, x1, x2:IntAlu
+O3PipeView:decode:1100
+O3PipeView:rename:1150
+O3PipeView:dispatch:1200
+O3PipeView:issue:1300
+O3PipeView:complete:1400
+O3PipeView:retire:1500:store:0
+O3PipeView:fetch:2000:0x1004:0:2:add x5, x3, x4:IntAlu
+O3PipeView:decode:2100
+O3PipeView:rename:2150
+O3PipeView:dispatch:2200
+O3PipeView:issue:2300
+O3PipeView:complete:2400
+O3PipeView:retire:2500:store:0
+O3PipeView:fetch:3000:0x1008:0:3:add x6, x5, x1:IntAlu
+O3PipeView:decode:3100
+O3PipeView:rename:3150
+O3PipeView:dispatch:3200
+O3PipeView:issue:3300
+O3PipeView:complete:3400
+O3PipeView:retire:3500:store:0
+O3PipeView:fetch:4000:0x100c:0:4:sw x6, 0(a0):MemWrite
+O3PipeView:decode:4100
+O3PipeView:rename:4150
+O3PipeView:dispatch:4200
+O3PipeView:issue:4300
+O3PipeView:complete:4400
+O3PipeView:retire:4500:store:0
+"""
+    trace_file = tmp_path.joinpath("trace_with_deps.out")
+    trace_file.write_text(content)
+    return trace_file
+
+
+@pytest.fixture
+def trace_with_deps_and_memdeps(tmp_path: Path) -> Path:
+    content = """\
+O3PipeView:deps:0:3:1
+O3PipeView:deps:0:2:1
+O3PipeView:deps:0:1:
+O3PipeView:memdeps:0:3:2
+O3PipeView:fetch:1000:0x1000:0:1:add x1, x2, x3:IntAlu
+O3PipeView:decode:1100
+O3PipeView:rename:1150
+O3PipeView:dispatch:1200
+O3PipeView:issue:1300
+O3PipeView:complete:1400
+O3PipeView:retire:1500:store:0
+O3PipeView:fetch:2000:0x1004:0:2:sw x1, 0(a0):MemWrite
+O3PipeView:decode:2100
+O3PipeView:rename:2150
+O3PipeView:dispatch:2200
+O3PipeView:issue:2300
+O3PipeView:complete:2400
+O3PipeView:retire:2500:store:0
+O3PipeView:fetch:3000:0x1008:0:3:lw x2, 0(a0):MemRead
+O3PipeView:decode:3100
+O3PipeView:rename:3150
+O3PipeView:dispatch:3200
+O3PipeView:issue:3300
+O3PipeView:complete:3400
+O3PipeView:retire:3500:store:0
+"""
+    trace_file = tmp_path.joinpath("trace_with_deps_and_memdeps.out")
+    trace_file.write_text(content)
+    return trace_file
