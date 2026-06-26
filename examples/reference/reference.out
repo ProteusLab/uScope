@@ -1,3 +1,14 @@
+O3PipeView:deps:0:2:1
+O3PipeView:deps:0:4:3
+O3PipeView:deps:0:6:5
+O3PipeView:deps:0:8:2
+O3PipeView:deps:0:9:4
+O3PipeView:deps:0:10:8,9
+O3PipeView:deps:0:11:8,9
+O3PipeView:deps:0:12:8,9
+O3PipeView:deps:0:13:8,9
+O3PipeView:deps:0:14:6
+O3PipeView:deps:0:15:2
 O3PipeView:fetch:78500:0x00010144:0:1:auipc a0, 1:IntAlu
 O3PipeView:decode:79000
 O3PipeView:rename:79500
@@ -5,6 +16,30 @@ O3PipeView:dispatch:80500
 O3PipeView:issue:80500
 O3PipeView:complete:81000
 O3PipeView:retire:82000:store:0
+O3PipeView:deps:0:16:4
+O3PipeView:deps:0:17:6
+O3PipeView:deps:0:19:18
+O3PipeView:deps:0:21:20
+O3PipeView:memdeps:0:21:14
+O3PipeView:deps:0:23:22
+O3PipeView:memdeps:0:23:14
+O3PipeView:deps:0:25:21
+O3PipeView:memdeps:0:25:14
+O3PipeView:deps:0:26:23
+O3PipeView:memdeps:0:26:14
+O3PipeView:deps:0:27:25,26
+O3PipeView:deps:0:28:25,26
+O3PipeView:deps:0:29:17,12
+O3PipeView:deps:0:30:21
+O3PipeView:deps:0:31:23
+O3PipeView:memdeps:0:32:14
+O3PipeView:deps:0:33:16
+O3PipeView:memdeps:0:33:14
+O3PipeView:deps:0:34:32,33
+O3PipeView:deps:0:35:32,33
+O3PipeView:deps:0:36:32,33
+O3PipeView:deps:0:37:32,33
+O3PipeView:deps:0:38:17
 O3PipeView:fetch:78500:0x0001014c:0:3:auipc a1, 1:IntAlu
 O3PipeView:decode:79000
 O3PipeView:rename:79500
@@ -12,6 +47,13 @@ O3PipeView:dispatch:80500
 O3PipeView:issue:80500
 O3PipeView:complete:81000
 O3PipeView:retire:137000:store:0
+O3PipeView:deps:0:40:16
+O3PipeView:deps:0:41:17
+O3PipeView:deps:0:43:42
+O3PipeView:deps:0:45:44
+O3PipeView:memdeps:0:45:38,14
+O3PipeView:deps:0:47:46
+O3PipeView:memdeps:0:47:38,14
 O3PipeView:fetch:78500:0x00010148:0:2:ld a0, 532(a0):MemRead
 O3PipeView:decode:79000
 O3PipeView:rename:79500
@@ -19,6 +61,15 @@ O3PipeView:dispatch:80500
 O3PipeView:issue:81000
 O3PipeView:complete:81500
 O3PipeView:retire:137000:store:0
+O3PipeView:deps:0:49:45
+O3PipeView:memdeps:0:49:38,14
+O3PipeView:deps:0:50:47
+O3PipeView:memdeps:0:50:38,14
+O3PipeView:deps:0:51:49,50
+O3PipeView:deps:0:52:49,50
+O3PipeView:deps:0:53:41,36
+O3PipeView:deps:0:54:45
+O3PipeView:deps:0:55:47
 O3PipeView:fetch:78500:0x00010154:0:5:auipc a2, 1:IntAlu
 O3PipeView:decode:79000
 O3PipeView:rename:79500
@@ -47,6 +98,27 @@ O3PipeView:dispatch:80500
 O3PipeView:issue:81000
 O3PipeView:complete:81500
 O3PipeView:retire:141500:store:0
+O3PipeView:deps:0:57:56
+O3PipeView:deps:0:59:58
+O3PipeView:memdeps:0:59:53
+O3PipeView:deps:0:61:60
+O3PipeView:memdeps:0:61:53
+O3PipeView:deps:0:63:62
+O3PipeView:memdeps:0:63:53
+O3PipeView:deps:0:65:59
+O3PipeView:memdeps:0:65:53
+O3PipeView:deps:0:66:61
+O3PipeView:memdeps:0:66:53
+O3PipeView:deps:0:67:65,66
+O3PipeView:deps:0:68:65,66
+O3PipeView:deps:0:69:65,66
+O3PipeView:deps:0:70:63,67
+O3PipeView:deps:0:71:63
+O3PipeView:memdeps:0:72:53
+O3PipeView:memdeps:0:73:53
+O3PipeView:deps:0:74:72,73
+O3PipeView:deps:0:75:72,73
+O3PipeView:deps:0:76:36
 O3PipeView:fetch:78500:0x00010160:0:8:lw a4, 0(a0):MemRead
 O3PipeView:decode:79000
 O3PipeView:rename:79500
@@ -54,6 +126,22 @@ O3PipeView:dispatch:80500
 O3PipeView:issue:136000
 O3PipeView:complete:136500
 O3PipeView:retire:189000:store:0
+O3PipeView:deps:0:80:79
+O3PipeView:deps:0:82:81
+O3PipeView:memdeps:0:82:76,53
+O3PipeView:deps:0:84:83
+O3PipeView:memdeps:0:84:76,53
+O3PipeView:deps:0:86:85
+O3PipeView:memdeps:0:86:76,53
+O3PipeView:deps:0:88:82
+O3PipeView:memdeps:0:88:76,53
+O3PipeView:deps:0:89:84
+O3PipeView:memdeps:0:89:76,53
+O3PipeView:deps:0:90:88,89
+O3PipeView:deps:0:91:88,89
+O3PipeView:deps:0:92:88,89
+O3PipeView:deps:0:93:86,90
+O3PipeView:deps:0:94:86
 O3PipeView:fetch:79000:0x0001017c:0:15:addi a0, a0, 4:IntAlu
 O3PipeView:decode:79500
 O3PipeView:rename:80000
@@ -558,6 +646,20 @@ O3PipeView:dispatch:190000
 O3PipeView:issue:194000
 O3PipeView:complete:204000
 O3PipeView:retire:205000:store:0
+O3PipeView:deps:0:95:94,91
+O3PipeView:deps:0:96:94
+O3PipeView:deps:0:100:99
+O3PipeView:deps:0:102:101
+O3PipeView:memdeps:0:102:95,93
+O3PipeView:deps:0:104:103
+O3PipeView:memdeps:0:104:95,93
+O3PipeView:deps:0:106:105
+O3PipeView:memdeps:0:106:95,93
+O3PipeView:deps:0:108:102
+O3PipeView:memdeps:0:108:95,93
+O3PipeView:deps:0:109:104
+O3PipeView:memdeps:0:109:95,93
+O3PipeView:deps:0:110:108,109
 O3PipeView:fetch:182500:0x000101dc:0:63:ld a2, 424(a2):MemRead
 O3PipeView:decode:183000
 O3PipeView:rename:183500
@@ -565,6 +667,12 @@ O3PipeView:dispatch:184500
 O3PipeView:issue:185000
 O3PipeView:complete:185500
 O3PipeView:retire:0:store:0
+O3PipeView:memdeps:0:111:95,93
+O3PipeView:memdeps:0:112:95,93
+O3PipeView:deps:0:113:111,112
+O3PipeView:deps:0:114:111,112
+O3PipeView:deps:0:115:111,112
+O3PipeView:deps:0:116:113
 O3PipeView:fetch:189500:0x000101e0:0:87:addi a3, zero, 2:IntAlu
 O3PipeView:decode:190000
 O3PipeView:rename:190500
@@ -572,6 +680,10 @@ O3PipeView:dispatch:191500
 O3PipeView:issue:191500
 O3PipeView:complete:192000
 O3PipeView:retire:241500:store:0
+O3PipeView:deps:0:118:114
+O3PipeView:deps:0:123:122
+O3PipeView:deps:0:125:124
+O3PipeView:memdeps:0:125:118,116,95,93
 O3PipeView:fetch:189000:0x000101dc:0:86:ld a2, 424(a2):MemRead
 O3PipeView:decode:189500
 O3PipeView:rename:190000
@@ -579,6 +691,15 @@ O3PipeView:dispatch:191000
 O3PipeView:issue:191500
 O3PipeView:complete:192000
 O3PipeView:retire:241500:store:0
+O3PipeView:deps:0:127:126
+O3PipeView:memdeps:0:127:118,116,95,93
+O3PipeView:deps:0:129:128
+O3PipeView:memdeps:0:129:118,116,95,93
+O3PipeView:deps:0:131:125
+O3PipeView:memdeps:0:131:118,116,95,93
+O3PipeView:deps:0:132:127
+O3PipeView:memdeps:0:132:118,116,95,93
+O3PipeView:deps:0:133:131,132
 O3PipeView:fetch:189500:0x000101e4:0:88:flw ft0, 0(a0):FloatMemRead
 O3PipeView:decode:190000
 O3PipeView:rename:190500
@@ -929,6 +1050,29 @@ O3PipeView:dispatch:243500
 O3PipeView:issue:250500
 O3PipeView:complete:252500
 O3PipeView:retire:253500:store:0
+O3PipeView:deps:0:137:136,134
+O3PipeView:deps:0:138:136
+O3PipeView:deps:0:142:141
+O3PipeView:deps:0:144:143
+O3PipeView:memdeps:0:144:137,135
+O3PipeView:deps:0:146:145
+O3PipeView:memdeps:0:146:137,135
+O3PipeView:deps:0:148:147
+O3PipeView:memdeps:0:148:137,135
+O3PipeView:memdeps:0:150:137
+O3PipeView:memdeps:0:151:137
+O3PipeView:deps:0:152:150,151
+O3PipeView:deps:0:153:150,151
+O3PipeView:deps:0:154:152
+O3PipeView:deps:0:156:155,153
+O3PipeView:deps:0:157:155
+O3PipeView:deps:0:161:160
+O3PipeView:deps:0:163:162
+O3PipeView:memdeps:0:163:156,154
+O3PipeView:deps:0:165:164
+O3PipeView:memdeps:0:165:156,154
+O3PipeView:deps:0:167:166
+O3PipeView:memdeps:0:167:156,154
 O3PipeView:fetch:286500:0x00010248:0:136:addi a2, a2, 4:IntAlu
 O3PipeView:decode:287000
 O3PipeView:rename:287500
@@ -1321,6 +1465,10 @@ O3PipeView:dispatch:341000
 O3PipeView:issue:341000
 O3PipeView:complete:341500
 O3PipeView:retire:0:store:0
+O3PipeView:deps:0:192:191,190
+O3PipeView:deps:0:193:191,190
+O3PipeView:deps:0:194:192
+O3PipeView:deps:0:196:195,193
 O3PipeView:fetch:343500:0x00010284:0:190:vle32_v_micro v1, 0(a0), zero:SimdUnitStrideLoad
 O3PipeView:decode:344000
 O3PipeView:rename:344500
