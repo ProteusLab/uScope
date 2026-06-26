@@ -1,3 +1,5 @@
+.option norvc
+
 .section .data
     .align 4
     int_a:  .word 10, 20

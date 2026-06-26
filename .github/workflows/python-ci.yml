@@ -36,12 +36,12 @@ jobs:
     - name: Run conversion on reference example
       run: |
         uScope --input-file examples/reference/reference.out \
-                          --output-file reference.json
+                          --output-dir res/
 
     - name: Compare output with reference
       run: |
-        gunzip -c examples/reference/reference.json.gz > expected.json
-        diff -u reference.json expected.json
+        gunzip -c examples/reference/reference_0.json.gz > expected.json
+        diff -u reference_0.json expected.json
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v4
