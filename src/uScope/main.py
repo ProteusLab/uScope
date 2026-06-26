@@ -36,6 +36,7 @@ def _convert_and_dump(
         trace_parser, config,
         args.exclude_exec, args.exclude_pipeline,
         args.only_committed, args.store_completions,
+        args.exclude_flow,
     )
     events = converter.convert(progress=progress)
     logger.info(f"Writing {output_file}")
@@ -117,6 +118,12 @@ def main():
         dest="store_completions",
         action="store_false",
         help="Disable store completion tick events"
+    )
+    parser.add_argument(
+        "--exclude-flow",
+        default=False,
+        action="store_true",
+        help="Exclude data-flow dependency arrows from output"
     )
 
 

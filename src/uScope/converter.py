@@ -3,7 +3,7 @@ from typing import Dict, List, Optional, Tuple
 from tqdm import tqdm
 
 from .O3 import PipelineStage, Instruction
-from .events import MetadataEvent, DurationEvent
+from .events import MetadataEvent, DurationEvent, FlowEvent
 from .thread_pool import StageLaneManager
 from .config import IConfig
 from .parser import PipeViewParser
@@ -18,6 +18,7 @@ class ChromeTracingConverter:
         exclude_pipeline: bool = False,
         only_committed: bool = False,
         store_completions: bool = True,
+        exclude_flow: bool = False,
     ):
         self.parser: PipeViewParser = parser
         if not isinstance(config, IConfig):
@@ -31,6 +32,7 @@ class ChromeTracingConverter:
         self.exclude_pipeline: bool = exclude_pipeline
         self.only_committed: bool = only_committed
         self.store_completions: bool = store_completions
+        self.exclude_flow: bool = exclude_flow
 
         self.metadata_events: List[MetadataEvent] = []
         self.duration_events: List[DurationEvent] = []
@@ -38,6 +40,11 @@ class ChromeTracingConverter:
         self.stage_managers: Dict[PipelineStage, StageLaneManager] = {}
         self.func_units_managers: Dict[str, StageLaneManager] = {}
         self.store_lane_manager: Optional[StageLaneManager] = None
+
+        self._fu_seq_to_idx: Dict[int, int] = {}
+        self._fu_info: Dict[int, Tuple[int, int, int, int, str, str]] = {}
+        self._pending_flows: Dict[int, List[FlowEvent]] = {}
+        self._flow_id: int = 0
 
     def convert(self, progress: bool = True) -> List[dict]:
         self._add_metadata()
@@ -55,10 +62,19 @@ class ChromeTracingConverter:
                 self._add_pipeline_stage_events(instr)
             if not self.exclude_exec:
                 self._add_execution_unit_events(instr)
+                if not self.exclude_flow and instr.producers:
+                    self._wire_flow_for_instr(instr)
             if self.store_completions and instr.store_tick > 0:
                 self._add_store_completion_event(instr)
 
-        return [e.to_dict() for e in self.metadata_events + self.duration_events]
+        if self.exclude_flow:
+            return [e.to_dict() for e in self.metadata_events + self.duration_events]
+        result = [e.to_dict() for e in self.metadata_events]
+        for idx, evt in enumerate(self.duration_events):
+            result.append(evt.to_dict())
+            for f in self._pending_flows.get(idx, []):
+                result.append(f.to_dict())
+        return result
 
     def instructions_by_seq_num(self):
         return sorted(self.parser.instructions.values(), key=lambda x: x.seq_num)
@@ -161,9 +177,48 @@ class ChromeTracingConverter:
                         "Stage": self.config.get_stage_name(stage),
                         "OpClass": instr.opclass,
                         "Disasm": instr.disasm,
-                    },
-                )
+                },
             )
+        )
+
+    def _wire_flow_for_instr(self, instr: Instruction):
+        cons_info = self._fu_info.get(instr.seq_num)
+        if cons_info is None:
+            return
+        cons_issue, cons_complete, cons_pid, cons_tid, _cu, _cc = cons_info
+        cons_idx = self._fu_seq_to_idx[instr.seq_num]
+        for prod_seq in instr.producers:
+            prod_info = self._fu_info.get(prod_seq)
+            if prod_info is None:
+                continue
+            prod_issue, prod_complete, prod_pid, prod_tid, prod_unit, prod_cname = prod_info
+            prod_idx = self._fu_seq_to_idx[prod_seq]
+            self._flow_id += 1
+            fid = str(self._flow_id)
+            s_event = FlowEvent(
+                name="dep",
+                ph="s",
+                id=fid,
+                bp="e",
+                cat=prod_unit,
+                cname=prod_cname,
+                pid=prod_pid,
+                tid=prod_tid,
+                ts=prod_complete,
+            )
+            self._pending_flows.setdefault(prod_idx, []).append(s_event)
+            f_event = FlowEvent(
+                name="dep",
+                ph="f",
+                id=fid,
+                bp="e",
+                cat=prod_unit,
+                cname=prod_cname,
+                pid=cons_pid,
+                tid=cons_tid,
+                ts=cons_issue,
+            )
+            self._pending_flows.setdefault(cons_idx, []).append(f_event)
 
     def _add_execution_unit_events(self, instr: Instruction):
         if not instr.opclass:
@@ -184,25 +239,27 @@ class ChromeTracingConverter:
         dur = complete - issue
         cname = self._cname_for(instr)
 
-        self.duration_events.append(
-            DurationEvent(
-                name=mnemonic,
-                cat=unit,
-                ts=issue,
-                dur=dur,
-                pid=pid,
-                tid=tid,
-                cname=cname,
-                args={
-                    "PC": instr.pc,
-                    "SeqNum": instr.seq_num,
-                    "OpClass": instr.opclass,
-                    "Unit": unit,
-                    "Duration": dur,
-                    "Disasm": instr.disasm,
-                },
-            )
+        evt = DurationEvent(
+            name=mnemonic,
+            cat=unit,
+            ts=issue,
+            dur=dur,
+            pid=pid,
+            tid=tid,
+            cname=cname,
+            args={
+                "PC": instr.pc,
+                "SeqNum": instr.seq_num,
+                "OpClass": instr.opclass,
+                "Unit": unit,
+                "Duration": dur,
+                "Disasm": instr.disasm,
+            },
         )
+        idx = len(self.duration_events)
+        self._fu_seq_to_idx[instr.seq_num] = idx
+        self._fu_info[instr.seq_num] = (issue, complete, pid, tid, unit, cname)
+        self.duration_events.append(evt)
 
     def _add_store_completions_metadata(self):
         store_name = self.config.get_stage_name(PipelineStage.STORE_COMPLETE)

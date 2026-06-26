@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import Enum
 from typing import Dict, List
 
@@ -37,6 +37,7 @@ class Instruction:
     stage_order: List[PipelineStage]
     store_tick: int = 0
     core_id: int = 0
+    producers: List[int] = field(default_factory=list)
 
     @property
     def mnemonic(self):

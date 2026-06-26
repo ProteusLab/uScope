@@ -10,6 +10,7 @@ class PipeViewParser:
         self.current_seq_num = None
         self.current_instr = None
         self.stage_map = {f"{stage}": stage for stage in PipelineStage.order()}
+        self.pending_producers = {}
 
     def parse_file(self, filename: str):
         with open(filename, "r") as f:
@@ -56,6 +57,48 @@ class PipeViewParser:
                 store_tick = 0
         return stage_name, tick, store_tick
 
+    @staticmethod
+    def _parse_deps_line(rest: str):
+        first = rest.index(":")
+        core_id = int(rest[:first])
+        rest = rest[first + 1 :]
+        second = rest.index(":")
+        seq_num = int(rest[:second])
+        producers_str = rest[second + 1 :]
+        if producers_str:
+            producers = [int(p) for p in producers_str.split(",")]
+        else:
+            producers = []
+        return core_id, seq_num, producers
+
+    def _apply_producers(self, core_id, seq_num, producers):
+        instr = self.instructions.get((core_id, seq_num))
+        if instr is not None:
+            instr.producers = list(set(instr.producers) | set(producers))
+        else:
+            existing = self.pending_producers.get((core_id, seq_num))
+            if existing is not None:
+                existing.extend(p for p in producers if p not in existing)
+            else:
+                self.pending_producers[(core_id, seq_num)] = list(producers)
+
+    def _merge_producers(self, core_id, seq_num, producers):
+        instr = self.instructions.get((core_id, seq_num))
+        if instr is not None:
+            existing = set(instr.producers)
+            for p in producers:
+                if p not in existing:
+                    instr.producers.append(p)
+                    existing.add(p)
+        else:
+            existing = self.pending_producers.get((core_id, seq_num))
+            if existing is not None:
+                for p in producers:
+                    if p not in existing:
+                        existing.append(p)
+            else:
+                self.pending_producers[(core_id, seq_num)] = list(producers)
+
     def parse_line(self, line: str):
         if not line.startswith(self.PREFIX):
             return
@@ -85,6 +128,19 @@ class PipeViewParser:
 
             self.current_instr.stages[PipelineStage.FETCH] = tick
             self.current_instr.stage_order.append(PipelineStage.FETCH)
+
+            if (core_id, seq_num) in self.pending_producers:
+                self.current_instr.producers = self.pending_producers.pop((core_id, seq_num))
+            return
+
+        if rest.startswith("deps:"):
+            core_id, seq_num, producers = self._parse_deps_line(rest[5:])
+            self._apply_producers(core_id, seq_num, producers)
+            return
+
+        if rest.startswith("memdeps:"):
+            core_id, seq_num, producers = self._parse_deps_line(rest[8:])
+            self._merge_producers(core_id, seq_num, producers)
             return
 
         if self.current_instr is not None:
