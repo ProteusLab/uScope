@@ -36,11 +36,11 @@ def assert_instruction(
                 assert instr.stages[stage] == expected, f"Stage {stage} value mismatch"
 
 
-def assert_instructions(parser, expected, stage_order):
+def assert_instructions(parser, expected, stage_order, core_id=0):
     assert len(parser.instructions) == len(expected)
     for seq_num, (pc, disasm, opclass, stages) in expected.items():
         assert_instruction(
-            instr=parser.instructions[seq_num],
+            instr=parser.instructions[(core_id, seq_num)],
             seq_num=seq_num,
             pc=pc,
             disasm=disasm,
@@ -168,7 +168,7 @@ def test_parse_missing_stages(trace_with_missing_stages):
         ),
     }
     assert_instructions(parser, expected, expected_order)
-    assert PipelineStage.DISPATCH not in parser.instructions[1].stages
+    assert PipelineStage.DISPATCH not in parser.instructions[(0, 1)].stages
 
 
 def test_parse_empty_lines(trace_with_empty_lines):

@@ -27,3 +27,14 @@ class DurationEvent(Event):
     cname: Optional[str] = None
     ph: str = "X"
     tid: Optional[int] = None
+
+
+@dataclass
+class FlowEvent(Event):
+    id: str
+    ts: int
+    ph: str
+    bp: str
+    cat: Optional[str] = None
+    cname: Optional[str] = None
+    tid: Optional[int] = None

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import os
 import sys
 import json
 import logging
@@ -16,17 +17,46 @@ from .config import load_config
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
 
+
+def _make_output_path(output_dir: str, input_stem: str, core_id: int, gzip_enabled: bool) -> str:
+    output = str(Path(output_dir) / f"{input_stem}_{core_id}.json")
+    if gzip_enabled:
+        output += '.gz'
+    return output
+
+
+def _convert_and_dump(
+    trace_parser: PipeViewParser,
+    config,
+    args,
+    output_file: str,
+    progress: bool,
+):
+    converter = ChromeTracingConverter(
+        trace_parser, config,
+        args.exclude_exec, args.exclude_pipeline,
+        args.only_committed, args.store_completions,
+        args.data_flow,
+    )
+    events = converter.convert(progress=progress)
+    logger.info(f"Writing {output_file}")
+    with (gzip.open if args.gzip else open)(output_file, 'wt', encoding='utf-8') as f:
+        json.dump(events, f, indent=2)
+    return len(events)
+
 def main():
     parser = argparse.ArgumentParser(
         description="Convert gem5 O3PipeView trace to Perfetto / Chrome Tracing JSON format."
     )
     parser.add_argument(
         "--input-file", '-i',
+        required=True,
         help="Path to the input trace file (e.g., trace.out)"
     )
     parser.add_argument(
-        "--output-file", "-o",
-        help="Output JSON file name. If not specified, it will be derived from input_file"
+        "--output-dir", "-o",
+        default=".",
+        help="Output directory for JSON traces. Defaults to current directory."
     )
     parser.add_argument(
         "--config-path", "-c",
@@ -89,6 +119,12 @@ def main():
         action="store_false",
         help="Disable store completion tick events"
     )
+    parser.add_argument(
+        "--data-flow",
+        default=False,
+        action="store_true",
+        help="Add data-flow dependency"
+    )
 
 
     args = parser.parse_args()
@@ -99,21 +135,13 @@ def main():
         logging.getLogger().setLevel(logging.WARNING)
 
     input_file = args.input_file
-
-    if args.output_file:
-        output_file = args.output_file
-    else:
-        if input_file.endswith('.out'):
-            output_file = input_file[:-4] + '.json'
-        else:
-            output_file = input_file + '.json'
-
-    if args.gzip and not output_file.endswith('.gz'):
-        output_file += '.gz'
+    output_dir = args.output_dir
 
     try:
         if not Path(input_file).exists():
             raise FileNotFoundError(f"Input file not found: {input_file}")
+
+        os.makedirs(output_dir, exist_ok=True)
 
         logger.info(f"Parsing {input_file}")
         trace_parser = PipeViewParser()
@@ -123,18 +151,29 @@ def main():
             raise ValueError("No instructions with valid timestamps found")
 
         logger.info(f"Loading configuration from {args.config_path if args.config_path else 'default location'}")
-
         config = load_config(args.config_path)
 
-        converter = ChromeTracingConverter(trace_parser, config, args.exclude_exec, args.exclude_pipeline, args.only_committed, args.store_completions)
-        events = converter.convert(progress=not args.quiet)
+        all_instructions = trace_parser.instructions
+        core_ids = trace_parser.get_core_ids()
+        input_stem = Path(input_file).stem
+        progress = not args.quiet
 
-        logger.info(f"Writing {output_file}")
-
-        with (gzip.open if args.gzip else open)(output_file, 'wt', encoding='utf-8') as f:
-            json.dump(events, f, indent=2)
-
-        logger.info(f"Total events: {len(events)}")
+        if len(core_ids) == 1:
+            core_id = core_ids[0]
+            core_output = _make_output_path(output_dir, input_stem, core_id, args.gzip)
+            total = _convert_and_dump(trace_parser, config, args, core_output, progress)
+            logger.info(f"Total events: {total}")
+        else:
+            logger.info(f"Detected {len(core_ids)} cores: {core_ids}")
+            for core_id in core_ids:
+                trace_parser.instructions = {
+                    seq: instr
+                    for seq, instr in all_instructions.items()
+                    if instr.core_id == core_id
+                }
+                core_output = _make_output_path(output_dir, input_stem, core_id, args.gzip)
+                total = _convert_and_dump(trace_parser, config, args, core_output, progress)
+                logger.info(f"Core {core_id}: {total} events")
 
     except ValueError as e:
         logging.error(f"Value error: {e}")
