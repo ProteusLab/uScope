@@ -3,6 +3,7 @@ from .O3 import Instruction, PipelineStage
 
 class PipeViewParser:
     PREFIX = "O3PipeView:"
+    USCOPE_PREFIX = "uScopeView:"
 
     def __init__(self):
         self.instructions = {}
@@ -34,10 +35,18 @@ class PipeViewParser:
     @staticmethod
     def _parse_fetch_line(rest: str):
         parts = rest.split(":", 5)
-        if len(parts) != 6:
+        if len(parts) < 5:
             return None
-        tick_str, pc, core_id_str, seq_str, disasm, opclass = parts
-        return int(tick_str), pc, int(core_id_str), int(seq_str), disasm.strip(), opclass.strip()
+        tick_str, pc, pos2, seq_str, disasm = parts[:5]
+        opclass = parts[5].strip() if len(parts) > 5 else ""
+        return int(tick_str), pc, int(pos2), int(seq_str), disasm.strip(), opclass
+
+    @staticmethod
+    def _parse_usinfo_line(rest: str):
+        parts = rest.split(":", 2)
+        if len(parts) != 3:
+            return None
+        return int(parts[0]), int(parts[1]), parts[2].strip()
 
     @staticmethod
     def _parse_stage_line(rest: str):
@@ -100,10 +109,32 @@ class PipeViewParser:
                 self.pending_producers[(core_id, seq_num)] = list(producers)
 
     def parse_line(self, line: str):
-        if not line.startswith(self.PREFIX):
+        is_usview = line.startswith(self.USCOPE_PREFIX)
+        if is_usview:
+            rest = line[len(self.USCOPE_PREFIX) :]
+        elif line.startswith(self.PREFIX):
+            rest = line[len(self.PREFIX) :]
+        else:
             return
 
-        rest = line[len(self.PREFIX) :]
+        if is_usview:
+            if rest.startswith("deps:"):
+                core_id, seq_num, producers = self._parse_deps_line(rest[5:])
+                self._apply_producers(core_id, seq_num, producers)
+                return
+            if rest.startswith("memdeps:"):
+                core_id, seq_num, producers = self._parse_deps_line(rest[8:])
+                self._merge_producers(core_id, seq_num, producers)
+                return
+            if rest.startswith("usinfo:"):
+                result = self._parse_usinfo_line(rest[7:])
+                if result is not None:
+                    us_core_id, us_seq_num, us_opclass = result
+                    if self.current_instr is not None and self.current_seq_num == us_seq_num:
+                        self.current_instr.core_id = us_core_id
+                        self.current_instr.opclass = us_opclass
+                return
+            return
 
         if rest.startswith("fetch:"):
             result = self._parse_fetch_line(rest[6:])
@@ -131,16 +162,6 @@ class PipeViewParser:
 
             if (core_id, seq_num) in self.pending_producers:
                 self.current_instr.producers = self.pending_producers.pop((core_id, seq_num))
-            return
-
-        if rest.startswith("deps:"):
-            core_id, seq_num, producers = self._parse_deps_line(rest[5:])
-            self._apply_producers(core_id, seq_num, producers)
-            return
-
-        if rest.startswith("memdeps:"):
-            core_id, seq_num, producers = self._parse_deps_line(rest[8:])
-            self._merge_producers(core_id, seq_num, producers)
             return
 
         if self.current_instr is not None:

@@ -74,7 +74,7 @@ class TestParseDeps:
 
     def test_parse_deps_before_fetch(self):
         parser = PipeViewParser()
-        parser.parse_line("O3PipeView:deps:0:2:1")
+        parser.parse_line("uScopeView:deps:0:2:1")
         assert parser.pending_producers[(0, 2)] == [1]
 
         parser.parse_line("O3PipeView:fetch:1000:0x1000:0:2:add x1,x2,x3:IntAlu")
@@ -106,8 +106,8 @@ class TestParseDeps:
 
     def test_parse_memdeps_before_fetch(self):
         parser = PipeViewParser()
-        parser.parse_line("O3PipeView:deps:0:3:1")
-        parser.parse_line("O3PipeView:memdeps:0:3:2")
+        parser.parse_line("uScopeView:deps:0:3:1")
+        parser.parse_line("uScopeView:memdeps:0:3:2")
         assert parser.pending_producers[(0, 3)] == [1, 2]
 
         parser.parse_line("O3PipeView:fetch:3000:0x1008:0:3:lw x2,0(a0):MemRead")
@@ -118,7 +118,7 @@ class TestParseDeps:
 
     def test_parse_memdeps_only(self):
         parser = PipeViewParser()
-        parser.parse_line("O3PipeView:memdeps:0:5:4")
+        parser.parse_line("uScopeView:memdeps:0:5:4")
         assert parser.pending_producers[(0, 5)] == [4]
 
         parser.parse_line("O3PipeView:fetch:1000:0x1000:0:5:lw x5,0(a0):MemRead")
@@ -161,7 +161,7 @@ class TestConverterFlows:
     def test_interleaving(self, trace_with_deps, config: Config):
         parser = PipeViewParser()
         parser.parse_file(str(trace_with_deps))
-        converter = ChromeTracingConverter(parser, config)
+        converter = ChromeTracingConverter(parser, config, data_flow=True)
         events = converter.convert()
 
         flow_s, flow_f = assert_flow_counts(events, 4)
@@ -175,7 +175,7 @@ class TestConverterFlows:
     def test_multiple_producers(self, trace_with_deps, config: Config):
         parser = PipeViewParser()
         parser.parse_file(str(trace_with_deps))
-        converter = ChromeTracingConverter(parser, config)
+        converter = ChromeTracingConverter(parser, config, data_flow=True)
         events = converter.convert()
 
         flow_s, flow_f = assert_flow_counts(events, 4)
@@ -187,7 +187,7 @@ class TestConverterFlows:
     def test_cat_from_producer(self, trace_with_deps, config: Config):
         parser = PipeViewParser()
         parser.parse_file(str(trace_with_deps))
-        converter = ChromeTracingConverter(parser, config)
+        converter = ChromeTracingConverter(parser, config, data_flow=True)
         events = converter.convert()
 
         flow_s = [e for e in events if e.get("ph") == "s"]
@@ -202,15 +202,15 @@ class TestConverterFlows:
     def test_excluded_exec(self, trace_with_deps, config: Config):
         parser = PipeViewParser()
         parser.parse_file(str(trace_with_deps))
-        converter = ChromeTracingConverter(parser, config, exclude_exec=True)
+        converter = ChromeTracingConverter(parser, config, data_flow=True, exclude_exec=True)
         events = converter.convert()
 
         assert not [e for e in events if e.get("ph") in ("s", "f")]
 
-    def test_exclude_flow_flag(self, trace_with_deps, config: Config):
+    def test_data_flow_default_off(self, trace_with_deps, config: Config):
         parser = PipeViewParser()
         parser.parse_file(str(trace_with_deps))
-        converter = ChromeTracingConverter(parser, config, exclude_flow=True)
+        converter = ChromeTracingConverter(parser, config)
         events = converter.convert()
 
         assert not [e for e in events if e.get("ph") in ("s", "f")]
