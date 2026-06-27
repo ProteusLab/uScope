@@ -36,6 +36,7 @@ class Instruction:
     stages: Dict[PipelineStage, int]
     stage_order: List[PipelineStage]
     store_tick: int = 0
+    core_id: int = 0
 
     @property
     def mnemonic(self):

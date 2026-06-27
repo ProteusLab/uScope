@@ -6,6 +6,7 @@ class PipeViewParser:
 
     def __init__(self):
         self.instructions = {}
+        self.current_core_id = None
         self.current_seq_num = None
         self.current_instr = None
         self.stage_map = {f"{stage}": stage for stage in PipelineStage.order()}
@@ -18,21 +19,24 @@ class PipeViewParser:
                     self.parse_line(line)
 
         if self.current_instr is not None:
-            self.instructions[self.current_seq_num] = self.current_instr
+            self.instructions[(self.current_core_id, self.current_seq_num)] = self.current_instr
 
         self.instructions = {
-            seq: instr
-            for seq, instr in self.instructions.items()
+            key: instr
+            for key, instr in self.instructions.items()
             if any(tick > 0 for tick in instr.stages.values())
         }
+
+    def get_core_ids(self):
+        return sorted(set(instr.core_id for instr in self.instructions.values()))
 
     @staticmethod
     def _parse_fetch_line(rest: str):
         parts = rest.split(":", 5)
         if len(parts) != 6:
             return None
-        tick_str, pc, _, seq_str, disasm, opclass = parts
-        return int(tick_str), pc, int(seq_str), disasm.strip(), opclass.strip()
+        tick_str, pc, core_id_str, seq_str, disasm, opclass = parts
+        return int(tick_str), pc, int(core_id_str), int(seq_str), disasm.strip(), opclass.strip()
 
     @staticmethod
     def _parse_stage_line(rest: str):
@@ -62,11 +66,12 @@ class PipeViewParser:
             result = self._parse_fetch_line(rest[6:])
             if result is None:
                 return
-            tick, pc, seq_num, disasm, opclass = result
+            tick, pc, core_id, seq_num, disasm, opclass = result
 
             if self.current_instr is not None:
-                self.instructions[self.current_seq_num] = self.current_instr
+                self.instructions[(self.current_core_id, self.current_seq_num)] = self.current_instr
 
+            self.current_core_id = core_id
             self.current_seq_num = seq_num
             self.current_instr = Instruction(
                 seq_num=seq_num,
@@ -75,6 +80,7 @@ class PipeViewParser:
                 opclass=opclass,
                 stages={},
                 stage_order=[],
+                core_id=core_id,
             )
 
             self.current_instr.stages[PipelineStage.FETCH] = tick

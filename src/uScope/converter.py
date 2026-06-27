@@ -1,4 +1,4 @@
-from typing import Dict, List, Tuple
+from typing import Dict, List, Optional, Tuple
 
 from tqdm import tqdm
 
@@ -37,7 +37,7 @@ class ChromeTracingConverter:
 
         self.stage_managers: Dict[PipelineStage, StageLaneManager] = {}
         self.func_units_managers: Dict[str, StageLaneManager] = {}
-        self.store_lane_manager: StageLaneManager = None
+        self.store_lane_manager: Optional[StageLaneManager] = None
 
     def convert(self, progress: bool = True) -> List[dict]:
         self._add_metadata()
@@ -123,13 +123,14 @@ class ChromeTracingConverter:
     ) -> Tuple[int, int]:
         return self.func_units_managers[unit_name].assign_lane(start_time, end_time)
 
+    def _cname_for(self, instr: Instruction) -> str:
+        if instr.is_squashed:
+            return self.config.get_squashed_cname()
+        return self.config.get_color_for_instr(instr)
+
     def _add_pipeline_stage_events(self, instr: Instruction):
         mnemonic = instr.mnemonic
-        cname = (
-            self.config.get_squashed_cname()
-            if instr.is_squashed
-            else self.config.get_color_for_instr(instr)
-        )
+        cname = self._cname_for(instr)
 
         active = [
             (st, instr.stages[st])
@@ -181,11 +182,7 @@ class ChromeTracingConverter:
 
         pid, tid = self._assign_lane_for_func_units(unit, issue, complete)
         dur = complete - issue
-        cname = (
-            self.config.get_squashed_cname()
-            if instr.is_squashed
-            else self.config.get_color_for_instr(instr)
-        )
+        cname = self._cname_for(instr)
 
         self.duration_events.append(
             DurationEvent(
@@ -242,11 +239,7 @@ class ChromeTracingConverter:
             _, tid = self.store_lane_manager.assign_lane(retire_tick, store_tick)
 
         dur = store_tick - retire_tick
-        cname = (
-            self.config.get_squashed_cname()
-            if instr.is_squashed
-            else self.config.get_color_for_instr(instr)
-        )
+        cname = self._cname_for(instr)
 
         self.duration_events.append(
             DurationEvent(

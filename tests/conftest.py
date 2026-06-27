@@ -40,7 +40,7 @@ def minimal_parser() -> PipeViewParser:
             PipelineStage.RETIRE,
         ],
     )
-    parser.instructions = {1: instr}
+    parser.instructions = {(0, 1): instr}
     return parser
 
 
