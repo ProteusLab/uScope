@@ -18,7 +18,7 @@ class ChromeTracingConverter:
         exclude_pipeline: bool = False,
         only_committed: bool = False,
         store_completions: bool = True,
-        exclude_flow: bool = False,
+        data_flow: bool = False,
     ):
         self.parser: PipeViewParser = parser
         if not isinstance(config, IConfig):
@@ -32,7 +32,7 @@ class ChromeTracingConverter:
         self.exclude_pipeline: bool = exclude_pipeline
         self.only_committed: bool = only_committed
         self.store_completions: bool = store_completions
-        self.exclude_flow: bool = exclude_flow
+        self.data_flow: bool = data_flow
 
         self.metadata_events: List[MetadataEvent] = []
         self.duration_events: List[DurationEvent] = []
@@ -62,12 +62,12 @@ class ChromeTracingConverter:
                 self._add_pipeline_stage_events(instr)
             if not self.exclude_exec:
                 self._add_execution_unit_events(instr)
-                if not self.exclude_flow and instr.producers:
+                if self.data_flow and instr.producers:
                     self._wire_flow_for_instr(instr)
             if self.store_completions and instr.store_tick > 0:
                 self._add_store_completion_event(instr)
 
-        if self.exclude_flow:
+        if not self.data_flow:
             return [e.to_dict() for e in self.metadata_events + self.duration_events]
         result = [e.to_dict() for e in self.metadata_events]
         for idx, evt in enumerate(self.duration_events):
